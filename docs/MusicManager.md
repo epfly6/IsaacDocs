@@ -1,3 +1,8 @@
+---
+tags:
+  - Globals
+  - Class
+---
 # Class "MusicManager"
 ## Constructors
 ### Music·Manager () {: aria-label='Constructors' }
@@ -16,7 +21,9 @@ ___
 ## Functions
 ### Crossfade () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
-#### void Crossfade ( [MusicManager](MusicManager.md) ID, float FadeRate = 0.08 ) {: .copyable aria-label='Functions' }
+#### void Crossfade ( [Music](enums/Music.md) ID, float FadeRate = 0.08 ) {: .copyable aria-label='Functions' }
+???+ bug "Bug"
+    If the ID parameter is negative or falls out of the allowed range of music IDs, this function will crash the game.
 
 ___
 ### Disable () {: aria-label='Functions' }
@@ -81,7 +88,9 @@ ___
 ___
 ### Play () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
-#### void Play ( [MusicManager](MusicManager.md) ID, float Volume ) {: .copyable aria-label='Functions' }
+#### void Play ( [Music](enums/Music.md) ID, float Volume = 1 ) {: .copyable aria-label='Functions' }
+???+ bug "Bug"
+    If the ID parameter is negative or falls out of the allowed range of music IDs, this function will crash the game.
 
 ___
 ### Queue () {: aria-label='Functions' }

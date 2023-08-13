@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "GridEntitySpikes"
-### Inherits from Class: {: .inheritance }
-[GridEntity](GridEntity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/GridEntityClassDiagram.md"
 ## Variables
 ### Timeout {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }

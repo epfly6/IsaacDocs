@@ -1,3 +1,8 @@
+---
+tags:
+  - Tools
+  - Tutorial
+---
 # [Tutorial] Official ItemPool Editor
 
 The official **Itempool Editor** tool can be found in the "Tools" folder inside your game files.

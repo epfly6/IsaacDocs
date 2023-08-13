@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "GridEntityPit"
-### Inherits from Class: {: .inheritance }
-[GridEntity](GridEntity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/GridEntityClassDiagram.md"
 ## Functions
 ### Make·Bridge () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }

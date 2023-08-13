@@ -1,3 +1,8 @@
+---
+tags:
+  - Globals
+  - Class
+---
 # Class "Color"
 ## Constructors
 ### Color () {: aria-label='Constructors' }

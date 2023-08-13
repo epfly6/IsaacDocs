@@ -1,3 +1,7 @@
+---
+tags:
+  - File
+---
 # File "challenges.xml"
 
 Used to store all challenges and some of their attributes.
@@ -14,6 +18,7 @@ Used to store all challenges and some of their attributes.
 |startingitems|string list|Comma separated (nospace) item ids that will be added at the start.|
 |startingitems2|string list|Starting items for Player 2. Comma separated (nospace) item ids that will be added at the start. [ ](#){: .rep .tooltip .badge }|
 |startingtrinkets|string list|Comma separated (nospace) trinket ids that will be added at the start (max 2)|
+|startingcard|string list| [Card id](../enums/Card.md) of the starting cards<br>Default: -1 (no card)|
 |startingpill|string list| [PillEffect id](../enums/PillEffect.md) of the starting pill<br>Default: -1 (no pill)|
 |playertype|string|Player type id. Custom characters cant be defined this way! Use LUA code instead.<br>Default: 0 (Isaac)|
 |endstage|string|The last stage of the challenge (use [LevelStage](../enums/LevelStage.md) internal ids)|
@@ -33,7 +38,7 @@ Used to store all challenges and some of their attributes.
 |minfirerate|float|Minimal fire rate or more|
 |minshotspeed|bool|Minimal shot speed actived or deactivated|
 |bigrange|bool|Enable high starting range value|
-|difficulty|bool|[Game difficulty](../enums/Difficulty.md) [0: normal(default), 1: hard, 2: Greed, 3: Greedier)<br>Greed and greedier mode work, but when killing Ultra Greed, the big Chest spawns, instead of a trophy|
+|difficulty|int|[Game difficulty](../enums/Difficulty.md) [0: normal(default), 1: hard, 2: Greed, 3: Greedier)<br>Greed and greedier mode work, but when killing Ultra Greed, the big Chest spawns, instead of a trophy|
 |megasatan|bool|Last boss is megasatan. Adds the Key to the player.|
 |secretpath|bool|Force the Repentance alt path [ ](#){: .rep .tooltip .badge }|
 

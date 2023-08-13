@@ -1,6 +1,12 @@
+---
+tags:
+  - Class
+  - Player
+---
 # Class "EntityPlayer"
-### Inherits from Class: {: .inheritance }
-[Entity](Entity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/EntityClassDiagram.md"
 ## Functions
 ### Add·Black·Hearts () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -299,7 +305,6 @@ ___
 ### Add·Null·Costume () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### void AddNullCostume ( [NullItemID](enums/NullItemID.md) NullId ) {: .copyable aria-label='Functions' }
-for Lua
 
 ___
 ### Add·Pill () {: aria-label='Functions' }
@@ -307,17 +312,17 @@ ___
 #### void AddPill ( [PillColor](enums/PillColor.md) Pill ) {: .copyable aria-label='Functions' }
 
 ___
+### Add·Player·Form·Costume () {: aria-label='Functions' }
+[ ](#){: .abrep .tooltip .badge }
+#### void AddPlayerFormCostume ( [PlayerForm](enums/PlayerForm.md) Form ) {: .copyable aria-label='Functions' }
+Adds the costume of the given transformation.
+
+___
 ### Add·Poop·Mana () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
 #### void AddPoopMana ( int Num ) {: .copyable aria-label='Functions' }
 
 Adds (or remove) poop consumables from the player
-
-___
-### Add·Player·Form·Costume () {: aria-label='Functions' }
-[ ](#){: .abrep .tooltip .badge }
-#### void AddPlayerFormCostume ( [PlayerForm](enums/PlayerForm.md) Form ) {: .copyable aria-label='Functions' }
-Adds the costume of the given transformation.
 
 ___
 ### Add·Pretty·Fly () {: aria-label='Functions' }
@@ -343,7 +348,7 @@ ___
 
 Adds one soul heart to Bethany's charge, equivalent to a half soul heart.
 ???- note "Notes"
-	This function will only work when playing as Bethany. 
+	This function will only work when playing as Bethany.
 
 ___
 ### Add·Soul·Hearts () {: aria-label='Functions' }
@@ -402,7 +407,7 @@ Plays the happy animation, played when taking a positive pill.
 
 ???- example "Example Code"
     This code plays the happy animation.
-    ```lua 
+    ```lua
     local player = Isaac.GetPlayer()
     player:AnimateHappy()
     ```
@@ -414,7 +419,7 @@ Plays the animation that is played when entering the light in the ascent, or ent
 
 ???- example "Example Code"
 	Plays the animation.
-	```lua 
+	```lua
     local player = Isaac.GetPlayer()
 	player:AnimateLightTravel()
 	```
@@ -449,7 +454,7 @@ Plays the sad animation, played when taking a negative pill.
 
 ???- example "Example Code"
 	Plays the sad animation.
-	```lua 
+	```lua
     	local player = Isaac.GetPlayer()
 	player:AnimateSad()
 	```
@@ -545,14 +550,6 @@ Changing the player type within MC_POST_PLAYER_INIT will result in the player ge
 
 Changing the player Type into Jacob will also spawn Esau.
 
-Changing the player into Lilith will not spawn the Incubus. You need to call [`RespawnFamiliars()`](#respawnfamiliars) on the next available MC_POST_PEFFECT_UPDATE to spawn it in.
-
-In some cases, you need to give a secondary character health otherwise it won't show up. E.g. The Soul won't show up with The Forgotten unless you explicitly give it some health. You can get a reference to The Soul with [`GetSubPlayer()`](#getsubplayer).
-
-???+ bug "Bugs"
-	Changing to Tainted Forgotten will result in no Tainted Soul appearing.
-	Changing to Tainted Lazarus will result in player only having one form (because they won't have the Flip pocket item).
-
 ___
 ### Check·Familiar () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
@@ -565,7 +562,7 @@ Call this method to spawn the appropriate amount of familiars associated with a 
 
 This is meant to be called in the EvaluateCache callback (when the cache flag is equal to `CacheFlag.CACHE_FAMILIARS`).
 
-Note that this function is bugged in that it will not increment the provided RNG. This is bad because if you provide the player's collectible RNG as the argument for `rng`, all of the resulting spawned familiars will have the same `InitSeed`. Since `InitSeed` is the main way to identiy unique familiars, it is important that each familiar has a unique `InitSeed`. Thus, a brand new `RNG` object should always be passed to the `EntityPlayer.CheckFamiliar` method so that each new spawned familiar will have a new, random `InitSeed`. Subsequently, you should handle random familiar events not with an RNG object based on the familiar's `InitSeed`, but with a data structure that maps familiar `InitSeed `to RNG objects that are initialized based on the seed from the `EntityPlayer.GetCollectibleRNG` method.
+Note that this function is bugged in that it will not increment the provided RNG. This is bad because if you provide the player's collectible RNG as the argument for `rng`, the resulting spawned familiars will potentially have the same `InitSeed` as familiars spawned previously on the same run. Since `InitSeed` is the main way to identiy unique familiars, it is important that each familiar has a unique `InitSeed`. Thus, a brand new `RNG` object should always be passed to the `EntityPlayer.CheckFamiliar` method so that each new spawned familiar will have a new, random `InitSeed`. Subsequently, you should handle random familiar events not with an RNG object based on the familiar's `InitSeed`, but with a data structure that maps familiar `InitSeed `to RNG objects that are initialized based on the seed from the `EntityPlayer.GetCollectibleRNG` method.
 
 In most cases, [:material-language-typescript:IsaacScript](https://isaacscript.github.io/) users should use the [`checkFamiliarFromCollectibles`](https://isaacscript.github.io/isaacscript-common/modules/functions_familiars.html#checkFamiliarFromCollectibles) helper function instead of using this method directly, as it automatically calculates the appropriate target count.
 
@@ -682,6 +679,9 @@ ___
 ### Fire·Tech·Laser () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
 #### [EntityLaser](EntityLaser.md) FireTechLaser ( [Vector](Vector.md) Position, [LaserOffset](enums/LaserOffset.md) OffsetID, [Vector](Vector.md) Direction, boolean LeftEye, boolean OneHit = false, Entity Source = nil, float DamageMultiplier = 1 ) {: .copyable aria-label='Functions' }
+
+???+ bug "Bugs"
+    The `DamageMultiplier` parameter doesn't do anything when supplying [LASER_TECH2_OFFSET](enums/LaserOffset.md) as the offset.
 
 ___
 ### Fire·Tech·XLaser () {: aria-label='Functions' }
@@ -841,17 +841,17 @@ ___
 #### int GetDamageCooldown ( ) {: .copyable aria-label='Functions' }
 
 ___
+### Get·Effective·Blood·Charge () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### int GetEffectiveBloodCharge ( ) {: .copyable aria-label='Functions' }
+
+___
 ### Get·Effective·Max·Hearts () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### int GetEffectiveMaxHearts ( ) {: .copyable aria-label='Functions' }
 
 Returns the amount of Red Hearts the player can contain in their Heart Containers and Bone Hearts. 1 unit is half a red heart.
 **Example:** you have 3 red heart container and one bone heart. 6(red) + 2(bone) = 8
-
-___
-### Get·Effective·Blood·Charge () {: aria-label='Functions' }
-[ ](#){: .rep .tooltip .badge }
-#### int GetEffectiveBloodCharge ( ) {: .copyable aria-label='Functions' }
 
 ___
 ### Get·Effective·Soul·Charge () {: aria-label='Functions' }
@@ -980,7 +980,7 @@ ___
 [ ](#){: .rep .tooltip .badge }
 #### int GetMaxPocketItems ( ) {: .copyable aria-label='Functions' }
 
-Get the number of Pickup items you can carry. (1 on default. 2 with belly button or similar)
+Get the number of Pickup items you can carry. (1 on default. 2 with polydactyly or similar)
 
 If you have a pocket active, it also increments the number by one.
 
@@ -1034,6 +1034,10 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### [PosVel](PlayerTypes_PosVel.md) GetMultiShotPositionVelocity ( int LoopIndex, [WeaponType](enums/WeaponType.md) Weapon, [Vector](Vector.md) ShotDirection, float ShotSpeed, MultiShotParams params ) {: .copyable aria-label='Functions' }
 Call this function in a loop, where the LoopIndex is a number between 0 and the amount of tears the current MultiShotParams contains. Since MultiShotParams is currently not accessable via the modding api, you need to find other ways to get the amount.
+
+???+ bug "Removed Function"
+    This function does no longer exist in the latest patch! (v1.7.9b.J835)
+
 ___
 ### Get·Name () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -1163,6 +1167,11 @@ ___
 #### float GetSmoothBodyRotation ( ) {: .copyable aria-label='Functions' }
 
 ___
+### Get·Soul·Charge () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### int GetSoulCharge ( ) {: .copyable aria-label='Functions' }
+
+___
 ### Get·Soul·Hearts () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### int GetSoulHearts ( ) {: .copyable aria-label='Functions' }
@@ -1171,11 +1180,6 @@ Returns the amount of Soul Hearts the player has. 1 unit is half a heart.
 
 ???- note "Notes"
     Black Hearts count toward this total, as the game sees them as soul hearts.
-
-___
-### Get·Soul·Charge () {: aria-label='Functions' }
-[ ](#){: .rep .tooltip .badge }
-#### int GetSoulCharge ( ) {: .copyable aria-label='Functions' }
 
 ___
 ### Get·Sub·Player () {: aria-label='Functions' }
@@ -1385,7 +1389,7 @@ ___
 ___
 ### Queue·Item () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
-#### void QueueItem ( [ItemConfigItem](ItemConfig_Item.md) Item, int Charge = 0, boolean Touched = false, bool Golden = false, int VarData = 0 ) {: .copyable aria-label='Functions' }
+#### void QueueItem ( [ItemConfigItem](ItemConfig_Item.md) Item, int Charge = 0, boolean Touched = false, boolean Golden = false, int VarData = 0 ) {: .copyable aria-label='Functions' }
 When the player touches a collectible or trinket, they are not granted it immediately. Instead, the item is queued for the duration of the animation where the player holds the item above their head. When the animation is finished, the item in the queue will be granted. This method adds a new item to the item queue. If the player is not currently playing an animation, then the queued item will simply be awarded instantly.
 
 Also see `FlushQueueItem()`, `IsItemQueueEmpty()`, and `QueuedItem`.
@@ -1495,6 +1499,9 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### void Revive ( ) {: .copyable aria-label='Functions' }
 Revives the player.
+
+???+ bug "Bugs"
+    Exiting the run at any point after this function is called will make it so that the run can't be continued.
 ___
 ### Set·Active·Charge () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
@@ -1540,6 +1547,9 @@ Slot can be either SLOT_POCKET or SLOT_POCKET2.
 Items added to SLOT_POCKET2 will always be removed upon being used.
 If KeepInPools is set to true, the item will not be removed from the item pools.
 Use this to let the player start with a custom active item in their pocket active slot right away.
+
+???+ bug "Bugs"
+    Calling this function inside PostPlayerInit callback causes a crash when continuing a saved run after closing and reopening the game, unless KeepInPools argument is set to true.
 ___
 ### Set·Shooting·Cooldown () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -1554,8 +1564,10 @@ Only works on Bethany.
 
 ___
 ### Set·Target·Trap·Door () {: aria-label='Functions' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .abp .tooltip .badge }
 #### void SetTargetTrapDoor ( [GridEntity](GridEntity.md) TrapDoor ) {: .copyable aria-label='Functions' }
+
+This function got removed with Repentance.
 
 ___
 ### Shoot·Red·Candle () {: aria-label='Functions' }
@@ -1661,9 +1673,9 @@ ___
 ___
 ### Use·Active·Item () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
-#### void UseActiveItem ( [CollectibleType](enums/CollectibleType.md) Item, [UseFlags](enums/UseFlag.md) UseFlags = 0, [ActiveSlot](enums/ActiveSlot.md) Slot = -1 ) {: .copyable aria-label='Functions' }
+#### void UseActiveItem ( [CollectibleType](enums/CollectibleType.md) Item, [UseFlags](enums/UseFlag.md) UseFlags = 0, [ActiveSlot](enums/ActiveSlot.md) Slot = -1, int CustomVarData = 0 ) {: .copyable aria-label='Functions' }
 
-#### void UseActiveItem ( [CollectibleType](enums/CollectibleType.md) Item, boolean ShowAnim = false, boolean KeepActiveItem = false, boolean AllowNonMainPlayer = true, boolean ToAddCostume = false, [ActiveSlot](enums/ActiveSlot.md) Slot = -1 ) {: .copyable .secondH4 aria-label='Functions' }
+#### void UseActiveItem ( [CollectibleType](enums/CollectibleType.md) Item, boolean ShowAnim = false, boolean KeepActiveItem = false, boolean AllowNonMainPlayer = true, boolean ToAddCostume = false, [ActiveSlot](enums/ActiveSlot.md) Slot = -1, int CustomVarData = 0 ) {: .copyable .secondH4 aria-label='Functions' }
 **Slot**: The active slot this item was used from (set to -1 if this item wasn't triggered by any active slot)
 
 ???- note "Notes"
@@ -1679,6 +1691,12 @@ ___
 #### void UsePill ( [PillEffect](enums/PillEffect.md) ID, [PillColor](enums/PillColor.md) PillColor, [UseFlags](enums/UseFlag.md) UseFlags = 0  ) {: .copyable aria-label='Functions' }
 
 ___
+### Use·Poop·Spell () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### void UsePoopSpell ( [PoopSpellType](enums/PoopSpellType.md) type ) {: .copyable aria-label='Functions' }
+Triggers one of Tainted ???'s poop spells (see [PoopSpellType](enums/PoopSpellType.md) enum)
+
+___
 ### Will·Player·Revive () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean WillPlayerRevive ( ) {: .copyable aria-label='Functions' }
@@ -1689,12 +1707,6 @@ Right now, there are 3 items that grant conditional extra lives:
 * Guppy's Collar - This function will successfully predict whether or not the next revive from Guppy's Collar will work or not. (50% chance)
 * Broken Ankh - This function will successfully predict whether or not the next revive from Broken Ankh will work or not. (22.22% chance)
 * Mysterious Paper - This function will only successfully predict the revive from Missing Poster every 4 frames, because it evaluates only one of its 4 possible item effects each frame.
-
-___
-### Use·Poop·Spell () {: aria-label='Functions' }
-[ ](#){: .rep .tooltip .badge }
-#### void UsePoopSpell ( [PoopSpellType](enums/PoopSpellType.md) type ) {: .copyable aria-label='Functions' }
-Triggers one of Tainted ???'s poop spells (see [PoopSpellType](enums/PoopSpellType.md) enum)
 
 ___
 ## Variables

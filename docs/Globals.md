@@ -1,3 +1,9 @@
+---
+tags:
+  - Globals
+search:
+  boost: 2
+---
 # Globals
 
 Global variables are variables that every mod has access to. In Isaac modding, the global environment is a mix of things provided by the Lua standard library and things provided by the Isaac API.
@@ -157,7 +163,6 @@ This is a list of every global variable that is available in the Lua environment
 - SackSubType
 - SeedEffect
 - Seeds
-- ShockwaveParams
 - SkinColor
 - SortingLayer
 - SoundEffect
@@ -184,7 +189,6 @@ This is a list of every global variable that is available in the Lua environment
 - include
 - ipairs
 - load
-- loadfile
 - math
 - next
 - pairs
@@ -213,6 +217,7 @@ The following global variables are added:
 
 - debug
 - io
+- loadfile
 - os
 - package
 

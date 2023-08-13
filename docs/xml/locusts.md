@@ -1,3 +1,7 @@
+---
+tags:
+  - File
+---
 # File "locusts.xml"
 This file is used to define the properties of Locust familiars, spawned by Abyss.
 
@@ -37,5 +41,5 @@ Used to define the special properties of the locust created from the item with t
 | overlayGfx | string |special overlay spritesheet the locust should use |
 | tearFlags | int | Bitmask of the tearflags  |
 | tearFlags2 | int | Bitmask of the tearflags, is tied to procChance |
-| procChance | int | The chance of applying tearFlags2 |
+| procChance | float | The chance of applying tearFlags2 |
 | scale | float | Size multiplier of the locust|

@@ -1,9 +1,13 @@
+---
+tags:
+  - Class
+---
 # Class "Entity"
 
 First, see [the tutorial on entities](entities/Overview.md).
 
-### Children Classes {: .inheritance }
-[EntityBomb](EntityBomb.md), [EntityEffect](EntityEffect.md), [EntityFamiliar](EntityFamiliar.md), [EntityKnife](EntityKnife.md), [EntityLaser](EntityLaser.md), [EntityNPC](EntityNPC.md), [EntityPickup](EntityPickup.md), [EntityPlayer](EntityPlayer.md), [EntityProjectile](EntityProjectile.md), [EntityTear](EntityTear.md)
+## Class Diagram
+--8<-- "docs/snippets/EntityClassDiagram.md"
 
 ## Functions
 ### Add·Burn () {: aria-label='Functions' }
@@ -13,13 +17,13 @@ First, see [the tutorial on entities](entities/Overview.md).
 Adds a burn effect to an enemy. `Duration` is in number of frames. `Damage` is the damage taken per frame.
 
 ???- info "Duration Information"
-    `Duration` must be a minimum of 2 frames. Every consecutive damage tick is 20 frames apart.
+    `Duration` must be a minimum of 3 frames to deal damage. Every consecutive damage tick is 20 frames apart.
 
-    - 2 damage ticks = 22 frames
-    - 3 damage ticks = 42 frames
-    - 4 damage ticks = 62 frames
+    - 2 damage ticks = 23 frames
+    - 3 damage ticks = 43 frames
+    - 4 damage ticks = 63 frames
 
-    `Duration` has an upper limit. For an EntityPlayer, it maximum is one interval. For a normal entity, the maximum is 6 intervals.
+    `Duration` has an upper limit. For an EntityPlayer, its maximum is one interval. For a normal entity, the maximum is 6 intervals.
 
 ???- example "Example Code"
     This code damages every entity in the room for 1 second with the damage source set to the player. The total damage dealt is 1.
@@ -37,7 +41,7 @@ ___
 [ ](#){: .rep .tooltip .badge }
 #### void AddCharmed ( [EntityRef](EntityRef.md) sourceEntity, int Duration ) {: .copyable aria-label='Functions' }
 
-Adds a charmed-effect to an enemy. Duration is in Number of Frames. Charmed enemies are friendly towards isaac and attack other enemies.
+Adds a charmed-effect to an enemy. Duration is in Number of Frames. Charmed enemies are friendly towards Isaac and attack other enemies.
 
 `:::lua Duration = -1` makes the effect permanent and the enemy will follow you even to different rooms.
 
@@ -78,10 +82,10 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### void AddEntityFlags ( int Flags ) {: .copyable aria-label='Functions' }
 
-Add [EntityFlags](enums/EntityFlag.md) to the entity. Flags are used to add specific effects like poisoning or freeze. You can add multiple flags at the same time by bitwise-concatenating them.
+Add [EntityFlags](enums/EntityFlag.md) to the entity. Flags are used to add specific effects like being friendly or being immune from spike damage. You can add multiple flags at the same time by bitwise-concatenating them.
 
 ???- example "Example Code"
-    This code adds slowing and confusion to the enetity.
+    This code adds slowing and confusion to the entity.
 
     ```lua
     local player = Isaac.GetPlayer()
@@ -167,19 +171,17 @@ ___
 Adds a poison effect to the entity.
 
 ???- info "Duration infos"
-    The Duration must be a minimum of 2 frames. Every consecutive damage tick is 20 frames apart.
+    The Duration must be a minimum of 3 frames to deal damage. Every consecutive damage tick is 20 frames apart.
 
     ```
-    2 Damage-ticks = 22 frames
-    3 = 42
-    4 = 62
+    2 Damage-ticks = 23 frames
+    3 = 43
+    4 = 63
     ...
     ```
 
 ???+ bug
-    Changing the Damage value doesnt seem to have an effect. It always deals the amount of damage of the player.
-
-    The Duration value seems to have an upper limit. For a PlayerEntity, its only lasting for the duration of one damage interval. For Entities its up to 6 damage-intervals.
+    The Duration value seems to have an upper limit. For a PlayerEntity, it's only lasting for the duration of one damage interval. For Entities it's up to 6 damage-intervals.
 
 ???- example "Example Code"
     This code applies a poison effect to every entity in the room for 1 second.
@@ -215,10 +217,10 @@ ___
 ### Add·Slowing () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### void AddSlowing ( [EntityRef](EntityRef.md) Source, int Duration, float SlowValue, [Color](Color.md) SlowColor ) {: .copyable aria-label='Functions' }
-Makes the friction higher effectively slowing down the entity.
+Makes the friction higher, effectively slowing down the entity.
 
 ???- example "Example Code"
-    This code slows every entity in the room for 1 second with 0.5 original speed and applying a red color to it.
+    This code slows every entity in the room for 1 second with 0.5 original speed and applies a red color to it.
 
     ```lua
     local player = Isaac.GetPlayer()
@@ -249,25 +251,28 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### void ClearEntityFlags ( int Flags ) {: .copyable aria-label='Functions' }
 
-Removes all [EntityFlags](enums/EntityFlag.md) from the entity.
+Removes all of the provided [EntityFlags](enums/EntityFlag.md) from the entity.
 ___
 ### Collides·With·Grid () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean CollidesWithGrid ( ) {: .copyable aria-label='Functions' }
 
-Returns true, if the entity is able to collide with the grid.
+Returns true if the entity is currently colliding with a valid GridEntity, as dictated by its `Entity.GridCollisionClass`.
 ___
 ### Die () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### void Die ( ) {: .copyable aria-label='Functions' }
 
-Kills the entity and trigger its death animation.
+Kills the entity and triggers its death animation.
 ___
 ### Exists () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean Exists ( ) {: .copyable aria-label='Functions' }
 
-Returns true, if this entity still exists.
+Checks whether the entity is still spawned in the current room.
+
+This is mostly useful in situations where you are unwrapping an `EntityPtr` and the corresponding entity may or may not have been killed in the interim period.
+
 ___
 ### Get·Boss·ID () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -275,18 +280,20 @@ ___
 If the entity is a boss, it returns its specific boss id. If it isn't a boss it will return 0.
 
 A boss ID is **NOT** equal to the entity Type, but is defined as a separate value in the entities2.xml file inside the "bossID" attribute.
+
+For Delirium, this function returns the boss id, delirium is currently transformed into.
 ___
 ### Get·Color () {: aria-label='Functions' }
 [ ](#){: .const .tooltip .badge } [ ](#){: .abrep .tooltip .badge }
 #### const [Color](Color.md) GetColor ( ) {: .copyable aria-label='Functions' }
 
-Returns the Color object assosiated to this entity.
+Returns the Color object associated with this entity.
 ___
 ### Get·Data () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### table GetData ( ) {: .copyable aria-label='Functions' }
 
-Returns a Lua table that contains mod-related data assosiated with the entity. Initially, this will always be an empty table. Any values stored in the table by mods will persist until the entity is despawned.
+Returns a Lua table that contains mod-related data associated with the entity. Initially, this will always be an empty table. Any values stored in the table by mods will persist until the entity is despawned.
 
 GetData is typically used by smaller mods as a quick way to store information about an entity without having to create a dedicated data structure.
 
@@ -298,7 +305,7 @@ GetData is typically used by smaller mods as a quick way to store information ab
       local data = entity:GetData()
       if data.foo == nil then -- Keys of data should be strings
         data.foo = "bar" -- Values of data can be any data type
-        print("Assigned an intial key of: foo --> bar")
+        print("Assigned an initial key of: foo --> bar")
       else
         print("Key foo already exists: " .. tostring(data.foo))
       end
@@ -307,7 +314,7 @@ GetData is typically used by smaller mods as a quick way to store information ab
 
 There are three main problems with `GetData`:
 
-1. Data is not unique per mod, which means that using `GetData` is essentially the same thing as using a global variable. Using global variables are bad for two main reasons. First, other mods can overwrite or mess with your data, so it isn't safe to use them. Second, the scope of global variables makes it difficult to determine where the variable is used when reading the code, and makes it harder to track down bugs, especially in larger programs.
+1. Data is not unique per mod, which means that using `GetData` is essentially the same thing as using a global variable. Using global variables is bad for two main reasons. First, other mods can overwrite or mess with your data, so it isn't safe to use them. Second, the scope of global variables makes it difficult to determine where the variable is used when reading the code, and makes it harder to track down bugs, especially in larger programs.
 
 2. Most entities will despawn when leaving the room. For example, even though heart pickups are persisted by the game, they will be despawned and respawned each time the room is left and reentered, respectively. Thus, most entities will have their data deleted upon leaving the room. The exceptions to this are players, familiars, and entities with `EntityFlag.FLAG_PERSISTENT`.
 
@@ -320,7 +327,7 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### [RNG](RNG.md) GetDropRNG ( ) {: .copyable aria-label='Functions' }
 
-Returns the assigned RNG object for the entity. This RNG is used to determine the items that are dropped on the entities death.
+Returns the assigned RNG object for the entity. This RNG is used to determine the items that are dropped on the entity's death.
 ___
 ### Get·Entity·Flags () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -341,7 +348,7 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### [Entity](Entity.md) GetLastChild ( ) {: .copyable aria-label='Functions' data-altreturn='nil' }
 
-Returns the last entity spawned by this entity.
+Returns the last child of this entity. This is useful for certain segmented enemies so you can go all the way to the bottom "tail" entity in one method call.
 
 ???+ note "Return behavior"
     If no child is found, this function returns `nil`.
@@ -350,7 +357,7 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### [Entity](Entity.md) GetLastParent ( ) {: .copyable aria-label='Functions' data-altreturn='nil' }
 
-Returns the last parent of this entity.
+Returns the last parent of this entity. This is useful for certain segmented enemies so you can go all the way to the top "head" entity in one method call.
 
 ???+ note "Return behavior"
     If no parent is found, this function returns `nil`.
@@ -370,7 +377,7 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### boolean HasEntityFlags ( int Flags ) {: .copyable aria-label='Functions' }
 
-Returns true, if the entity has all named [EntityFlags](enums/EntityFlag.md) set.
+Returns true if the entity has all named [EntityFlags](enums/EntityFlag.md) set.
 
 ???- example "Example Code"
     This code prints something in the console, if the entity has a specific [EntityFlags](enums/EntityFlag.md).
@@ -608,6 +615,8 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### void Update ( ) {: .copyable aria-label='Functions' }
 
+Runs the post-update logic for the entity for a single frame, which will cause the associated callback to fire. Mods usually never need to call this function, as it can cause bugs when post-update logic is run more than once a frame.
+
 ___
 ## Variables
 ### Child {: aria-label='Variables' }
@@ -615,11 +624,16 @@ ___
 #### [Entity](Entity.md) Child {: .copyable aria-label='Variables' }
 
 ???- warning "Warning"
-    Sisters Vis bosses do have their counter part entity as their Child. But none of them have a Parent entity set.
+    Sisters Vis bosses do have their counterpart entity as their Child. But none of them have a Parent entity set.
 ___
 ### Collision·Damage {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
 #### float CollisionDamage  {: .copyable aria-label='Variables' }
+
+___
+### Color {: aria-label='Variables' }
+[ ](#){: .abrep .tooltip .badge }
+#### [Color](Color.md) Color  {: .copyable aria-label='Variables' }
 
 ___
 ### Depth·Offset {: aria-label='Variables' }
@@ -709,6 +723,8 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### [Entity](Entity.md) Parent  {: .copyable aria-label='Variables' data-altreturn='nil' }
 
+This is a reference to the "parent" entity. For most entities, this field will be nil. This field is used in multi-segment entities to refer back to which segment is the "main" entity, like the head.
+
 ___
 ### Position {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
@@ -739,6 +755,11 @@ ___
 #### [Vector](Vector.md) SizeMulti  {: .copyable aria-label='Variables' }
 
 ___
+### Sorting·Layer {: aria-label='Variables' }
+[ ](#){: .rep .tooltip .badge }
+#### [SortingLayer](enums/SortingLayer.md) SortingLayer  {: .copyable aria-label='Variables' }
+
+___
 ### Spawner·Entity {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
 #### [Entity](Entity.md) SpawnerEntity  {: .copyable aria-label='Variables' data-altreturn='nil' }
@@ -757,6 +778,10 @@ ___
 ### Spawn·Grid·Index {: aria-label='Variables' }
 [ ](#){: .const .tooltip .badge } [ ](#){: .abrep .tooltip .badge }
 #### const int SpawnGridIndex  {: .copyable aria-label='Variables' }
+
+This is the grid index with which the entity spawned upon room generation.
+
+Rerolled item pedestals, or entities spawned after the initial room generation will have a value of -1
 
 ___
 ### Splat·Color {: aria-label='Variables' }
@@ -785,9 +810,9 @@ Get/set the scale of the enemy sprite. This can be used to also scale the shadow
 
 Also used as a Player stat - Change this in a callback to MC_EVALUATE_CACHE using the CacheFlag.CACHE_SIZE flag.  **This is equal to the Size stat.**
 
-Most items that apply a Size Up (Magic Mushroom, Pill Larger...) do so by multiplying the SpriteScale by 1.2500623464584 (this is speculated to be 1.25 with a floating number error, you may choose to use 1.25 for futureproofing instead).
+Most items that apply a Size Up (Magic Mushroom, Pill Larger...) do so by multiplying the SpriteScale by 1.2500623464584 (this is speculated to be 1.25 with a floating number error, you may choose to use 1.25 for future proofing instead).
 
-Most items that apply a Size Down (Mini Mushroom, Binky, Pill Smaller...) do so by multiplying the SpriteScale by 0.79996013641357 (this is speculated to be 0.8 with a floating number error, you may choose to use 0.8 for futureproofing instead).
+Most items that apply a Size Down (Mini Mushroom, Binky, Pill Smaller...) do so by multiplying the SpriteScale by 0.79996013641357 (this is speculated to be 0.8 with a floating number error, you may choose to use 0.8 for future proofing instead).
 
 Pluto uses its own multiplier of 0.5.
 

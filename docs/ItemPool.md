@@ -1,3 +1,7 @@
+---
+tags:
+  - Class
+---
 # Class "ItemPool"
 
 ???+ info
@@ -51,6 +55,10 @@ ___
 [ ](#){: .rep .tooltip .badge }
 #### [PillEffect](enums/PillEffect.md) GetPillEffect ( [PillColor](enums/PillColor.md) PillColor, [EntityPlayer](EntityPlayer.md) Player = nil ) {: .copyable aria-label='Functions' }
 
+Will return the pill effect that corresponds to the passed pill color. This will work properly even if the player has not yet identified the pill color (by using one or more pills of that color). It is recommended to always pass the corresponding player because if a player has Lucky Foot, PHD, Virgo, or False PHD, the resolved pill effect will change from what was assigned by default at the beginning of the run.
+
+Returns -1 if passed `PillColor.NULL` (0) or a value of 2048. Returns `PillEffect.BAD_GAS` (0) if passed an invalid pill color (e.g. 15 through 2047 or 2063+).
+
 ___
 ### Get·Pool·For·Room () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -70,6 +78,8 @@ ___
 ### Is·Pill·Identified () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean IsPillIdentified ( [PillColor](enums/PillColor.md) PillColor ) {: .copyable aria-label='Functions' }
+
+Once the player takes PHD, Virgo, or False PHD, this method will always return true, even if the player has not already seen or used the pill on the run thus far. (This is because this method dictates when the "???" text should be shown as the pill description, and these collectibles will always show the "revealed" text.)
 
 ___
 ### Remove·Collectible () {: aria-label='Functions' }

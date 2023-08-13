@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "GridEntityRock"
-### Inherits from Class: {: .inheritance }
-[GridEntity](GridEntity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/GridEntityClassDiagram.md"
 ## Functions
 ### Get·Big·Rock·Frame () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -15,6 +20,7 @@ ___
 ### Get·Sprite () {: aria-label='Functions' }
 [ ](#){: .const .tooltip .badge } [ ](#){: .abrep .tooltip .badge }
 #### const [Sprite](Sprite.md) GetSprite ( ) {: .copyable aria-label='Functions' }
+Same as the Repentance exclusive function [GetSprite()](GridEntity.md#getsprite).
 
 ___
 ### Set·Big·Rock·Frame () {: aria-label='Functions' }

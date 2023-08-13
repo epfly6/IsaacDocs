@@ -1,3 +1,7 @@
+---
+tags:
+  - Tutorial
+---
 # [Tutorial] Importing Lua Modules from the Standard Library
 
 Lua provides a standard library. However, since Isaac is a sandboxed environment, not everything is available for use:
@@ -6,14 +10,12 @@ Lua provides a standard library. However, since Isaac is a sandboxed environment
 | -------------------- | ------------------------------------
 | json (with `require("json")`) | socket (with `require("socket")`)
 | assert                        | debug
-| collectgarbage                | io
-| coroutine                     | os
-| dofile                        | package
-| error                         | require *(unmodified)*
-| getmetatable
-| ipairs
-| load
-| loadfile
+| collectgarbage                | dofile
+| coroutine                     | io
+| error                         | loadfile
+| getmetatable                  | os
+| ipairs                        | package
+| load                          | require *(unmodified)*
 | math
 | next
 | pairs

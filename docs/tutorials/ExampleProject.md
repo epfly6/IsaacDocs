@@ -1,3 +1,7 @@
+---
+tags:
+  - Tutorial
+---
 # [Tutorial] Example Project
 ----
 
@@ -22,22 +26,21 @@ Next, create a new `main.lua` file in the newly created folder. This file will c
 The following is an example mod that always changes the player's tears to have a slowing effect and have the Dark Matter visual look:
 
 ```lua
--- Register the mod in the API
+-- Register the mod, which grants the ability to add code that correspond to in-game events (i.e. "callbacks").
 local mod = RegisterMod("Custom Tears", 1)
 
 local function postFireTear(_, tear)
-  -- Get the main player, which is an instance of the "EntityPlayer" class
-  local player = Isaac.GetPlayer()
-
-  player:AddCoins(1)
-
-  -- Add a slowing effect to the tear
+  -- Add a slowing effect to the tear using the "binary or" operator.
   tear.TearFlags = tear.TearFlags | TearFlags.TEAR_SLOW
 
-  -- Change the appearance of the tear
+  -- Change the appearance of the tear. (The "variant" of the tear is used by the game to decide how to draw it.)
   tear:ChangeVariant(TearVariant.DARK_MATTER)
 end
 
- -- Specify that the "onTear" function should be executed whenever the player fires a tear
+ -- Specify that the "onTear" function should be executed whenever the player fires a tear.
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, postFireTear)
 ```
+
+From here, you can change the code to do whatever you want. In short, you will have to subscribe to the appropriate callbacks (in order to run code at the specific times that you want). And then you will have to use the appropriate API methods (to change things in-game corresponding to what you want to do).
+
+Start by browsing the docs for the `ModCallbacks` enum to learn what all the different callback options are. Then, browse through the rest of the API documentation to get a feel for what kinds of things are possible to read and change.

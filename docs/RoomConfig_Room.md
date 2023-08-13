@@ -1,3 +1,9 @@
+---
+tags:
+  - Class
+search:
+  boost: 0.25
+---
 # Class "RoomConfigRoom"
 ???+ info
     You can get this class by using the following functions:
@@ -46,9 +52,21 @@ ___
 #### const float InitialWeight  {: .copyable aria-label='Variables' }
 
 ___
+### Mode {: aria-label='Variables' }
+[ ](#){: .const .tooltip .badge } [ ](#){: .rep .tooltip .badge }
+#### const userdata Mode  {: .copyable aria-label='Variables' }
+???+ bug "Bug"
+    This variable is broken and returns userdata.
+
+___
 ### Name {: aria-label='Variables' }
 [ ](#){: .const .tooltip .badge } [ ](#){: .abrep .tooltip .badge }
 #### const string Name  {: .copyable aria-label='Variables' }
+
+___
+### Original·Variant {: aria-label='Variables' }
+[ ](#){: .const .tooltip .badge } [ ](#){: .abrep .tooltip .badge }
+#### int OriginalVariant  {: .copyable aria-label='Variables' }
 
 ___
 ### Shape {: aria-label='Variables' }
@@ -63,7 +81,7 @@ ___
 ___
 ### Spawns {: aria-label='Variables' }
 [ ](#){: .const .tooltip .badge } [ ](#){: .abrep .tooltip .badge }
-#### const [SpawnList](CppContainer_ArrayProxy_RoomConfigSpawns.md) Spawns  {: .copyable aria-label='Variables' }
+#### const [RoomConfigSpawns](CppContainer_ArrayProxy_RoomConfigSpawns.md) Spawns  {: .copyable aria-label='Variables' }
 
 ___
 ### Stage·ID {: aria-label='Variables' }

@@ -18,9 +18,11 @@ function unmarkStuff() {
         if (highlightResultsState == null || highlightResultsState == 0) {
             highlightResultsState = 1;
             $content.unmark();
+            $("body").addClass("hideMarks");
             $(".clearSearchMarks").prop('checked', false);
         } else {
             highlightResultsState = 0;
+            $("body").removeClass("hideMarks");
             $(".clearSearchMarks").prop('checked', true);
         }
 
@@ -31,9 +33,6 @@ function unmarkStuff() {
                 jumpTarget = "#" + jumpTargetValue[1];
             }
             var searchText = "?h=" + $("input[aria-label=\"Search\"]").val();
-            if (highlightResultsState == 1) {
-                searchText = ""
-            }
             var link = $(this).attr('href').split("?")[0].split("#")[0];
             $(this).attr('href', link + searchText + jumpTarget);
         });
@@ -77,18 +76,20 @@ function buildContentMap() {
         return;
     }
     var mapObj = $("<div class=\"contentMap\"><h2 class=\"overviewHeader\">Content Overview</h2><table class=\"contentTable\" id=\"contentOverviewTable\"><thead><tr><th>Return value</th><th>Function</th></tr></thead><tbody></tbody></table><hr/></div>");
-    if ($(".inheritance").length == 0) {
-        mapObj.insertAfter($(".md-content__inner").find("h1"));
+    if ($("#class-diagram").length == 0) {
+        mapObj.insertAfter($(".md-content__inner").find("h1").first());
     } else {
-        mapObj.insertAfter($(".md-content__inner").find("p").first());
+        // insert content map after mermaid diagram
+        mapObj.insertAfter($(".mermaidDiagram").first());
     }
 
     var tableContent = "";
     $("h4").each(function(index) {
-        //remove anchor links from variable description headers... we dont need them and they suck
-        $(this).find("a.headerlink").remove();
-
-        var funcParts = $(this).html().split(" (");
+        //remove anchor links and mark objects from variable description headers... we dont need them and they suck
+        var cloneH4 = $(this).clone();
+        cloneH4.find("a.headerlink").remove();
+        cloneH4.find("mark").contents().unwrap();
+        var funcParts = cloneH4.html().split(" (");
         var funcFront = funcParts[0].split(" ");
         var funcName = funcFront.pop();
         var parentH3Node = $(this).prev();
@@ -113,29 +114,18 @@ function modifyCallbackPageLayout() {
         return;
     }
 
-    var curH3;
-    var mcTableData;
     var tableContent = "";
-    $("article.md-content__inner").children().each(function(index) {
-        if ($(this).get(0).tagName == "H3") {
-            if (mcTableData != null && curH3 != null) {
-                var headerLink = mcTableData.find("td:eq(2)").text().toLowerCase();
-                console.log(headerLink);
-                tableContent = tableContent + "<tr>" +
-                    "<td class=\"copyable\"><a href=\"#" + headerLink + "\">" + mcTableData.find("td:eq(2)").text() + "</a></td>" +
-                    "<td>" + mcTableData.find("td:eq(3)").html() + "</td>" +
-                    "<td>" + mcTableData.find("td:eq(4)").html() + "</td>" +
-                    "<td>" + mcTableData.find("td:eq(5)").html() + "</td></tr>";
-            }
-            curH3 = $(this);
-        } else if ($(this).get(0).tagName == "DIV") {
-            if (curH3 != null) {
-                mcTableData = $(this);
-            }
-        }
+    $("article.md-content__inner .md-typeset__table").each(function(index) {
+        var headerLink = $(this).find("td:eq(2)").text().toLowerCase();
+        tableContent = tableContent + "<tr>" +
+            "<td>" + $(this).find("td:eq(1)").html() + "</td>" +
+            "<td class=\"copyable\" style=\"text-align: right;\"><a href=\"#" + headerLink + "\">" + $(this).find("td:eq(2)").text() + "</a></td>" +
+            "<td>" + $(this).find("td:eq(3)").html() + "</td>" +
+            "<td>" + $(this).find("td:eq(4)").html() + "</td>" +
+            "<td>" + $(this).find("td:eq(5)").html() + "</td></tr>";
     });
     var mapObj = $("<div class=\"contentMap\"><h2 class=\"overviewHeader\">Content Overview</h2><table class=\"contentTable\" id=\"contentOverviewTable\">" +
-        "<thead><tr><th>Name</th><th>Function Args</th><th>Optional Args</th><th>Return Type</th></tr></thead><tbody></tbody></table><hr/></div>");
+        "<thead><tr><th>ID</th><th>Name</th><th>Function Args</th><th>Optional Args</th><th>Return Type</th></tr></thead><tbody></tbody></table><hr/></div>");
     mapObj.insertAfter($(".md-content__inner").find("p").first());
 
     $('#contentOverviewTable > tbody').append(tableContent);
@@ -237,6 +227,10 @@ document$.subscribe(function() {
     modifyCallbackPageLayout();
     addBitsetCalculator();
     buildContentMap();
+
+    // reduce audio volume to 25%
+    $("audio").prop("volume", 0.25);
+
     $(".overviewHeader").click(function() {
         $(this).toggleClass("collapsed");
         $(".contentTable").toggle();
@@ -269,7 +263,6 @@ document$.subscribe(function() {
         }
         $(".md-version__list").append('<li class="md-version__item"><a href="/' + sourceFolder + '/oldDocs/index.html" class="md-version__link">Original AB+ Docs</a></li>')
     }, 500, 9000);
-
 
     // handle Copy Buttons
     $(".copyable").each(function(e) {
@@ -333,7 +326,7 @@ document$.subscribe(function() {
             document.execCommand("copy");
             $(this).remove();
         });
-        $(this).find("span").first().text("Copied: \n" + copyText);
+        $(this).find("span").first().html("Copied: <br><code>" + copyText+"</code>");
     });
 
     $(".copyButton").mouseleave(function() {
@@ -344,10 +337,19 @@ document$.subscribe(function() {
     // We use an Element observer, to change the search results AFTER they where placed
     var target = document.querySelector('.md-search-result__list')
     var observer = new MutationObserver(function(mutations) {
+        $("li.md-search-result__item").each(function(e) {
+            var firstATag = $(this).find('a').first();
+            colorizeSearchResults(firstATag);
+        });
         $("li.md-search-result__item").find('a').each(function(e) {
             hidePlaceholderChar($(this));
-            colorizeSearchResults($(this));
         });
+        $("article.md-search-result__article").each(function(e) {
+            if ($(this).attr("data-md-score") < 0) {
+                $(this).parent().parent().hide();
+            }
+        })
+
     });
     var config = { attributes: true, childList: true, characterData: true };
     observer.observe(target, config);
@@ -366,32 +368,13 @@ document$.subscribe(function() {
         editClone.appendTo($(this).parent());
     })
 
-    //remove search query string of search result links
-    // We use an Element observer, to change the search results AFTER they where placed
-    var target = document.querySelector('.md-search-result__list')
-    var observer = new MutationObserver(function(mutations) {
-        var searchText = $("input[aria-label=\"Search\"]").val();
-        if (typeof(Storage) !== "undefined" && localStorage.getItem("highlightResults") == 1) {
-            $("li.md-search-result__item").find('a').each(function(e) {
-                var jumpTargetValue = $(this).attr('href').split("#");
-                var jumpTarget = "";
-                if (jumpTargetValue.length > 1) {
-                    jumpTarget = "#" + jumpTargetValue[1];
-                }
-                var link = $(this).attr('href').split("?")[0].split("#")[0];
-                $(this).attr('href', link + jumpTarget);
-            });
-        }
-    });
-    var config = { attributes: true, childList: true, characterData: true };
-    observer.observe(target, config);
-
     mark();
 
     if (typeof(Storage) !== "undefined") {
         if (localStorage.getItem("highlightResults") == 1) {
             $(".clearSearchMarks").prop('checked', false);
             $content.unmark();
+            $("body").addClass("hideMarks");
         }
     }
 });
@@ -495,3 +478,64 @@ function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeout
         }
     })();
 }
+
+
+
+
+////////////////////////////////////////////////
+  var questionHistory = [];
+  var currentQuestion;
+
+  function createAnswers() {
+    $("#faq_buttons").empty();
+    if ("answers" in currentQuestion) {
+      for (const answer of currentQuestion.answers) {
+        var answerButton = $('<button class="faqButton md-button md-button--primary" onclick="setQuestion(\'' + answer.link + "')\">" + answer.text + "</button>");
+        $("#faq_buttons").append(answerButton);
+      }
+    }
+  }
+  function previousQuestion() {
+    var prevQuestion = "START";
+    if (questionHistory.length > 1) {
+      prevQuestion = questionHistory[questionHistory.length-2];
+    }
+    setQuestion(prevQuestion, true);
+    questionHistory.pop();
+  }
+
+  function setQuestion(questionID, isUndo) {
+    if (typeof INTERACTIVE_questions === "undefined") {
+      return;
+    }
+    $("#interactiveFAQ").fadeOut(250, function () {
+      // Add to history
+      if (!isUndo) {
+        questionHistory.push(questionID.toString());
+      }
+      currentQuestion = INTERACTIVE_questions[questionID.toString()];
+
+      $("#faq_text").html(currentQuestion.text);
+
+      if ("image" in currentQuestion) {
+        $("#faq_image").attr("src", currentQuestion.image);
+      } else {
+        $("#faq_image").attr("src", "");
+      }
+
+      createAnswers();
+
+      $("#interactiveFAQ").fadeIn(250);
+    });
+  }
+
+  document$.subscribe(function () {
+    $(".interactiveFAQ").each(function (header) {
+      $('<div id="interactiveFAQ"><img id="faq_image" width="400" align="right" alt="" src=""><h4>Question</h4><div id="faq_text"></div><div id="faq_buttons"></div></div>').insertAfter($(this));
+      setQuestion("START");
+    });
+  });
+
+
+
+

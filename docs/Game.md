@@ -1,3 +1,8 @@
+---
+tags:
+  - Globals
+  - Class
+---
 # Class "Game"
 ## Constructors
 ### Game () {: aria-label='Constructors' }
@@ -113,6 +118,7 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### void Darken ( float Darkness, int Timeout ) {: .copyable aria-label='Functions' }
 
+Darkens the room. This is the function that is called internally during The Lamb fight or when Dice Rooms are activated.
 ___
 ### Donate·Angel () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -127,6 +133,36 @@ ___
 ### End () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### void End ( Ending Ending ) {: .copyable aria-label='Functions' }
+???+ note "Ending notes"
+    1: Game over "Dear Diary" (exit/restart)
+
+    2: Mom / Epilogue (movie)
+
+    3: Mom's Heart / End 1/2/3/4/5/6/7/8/9/10/11 (movie) or just Credits depending on context
+
+    4: Satan / End 12 (movie)
+
+    5: Isaac / End 13 (movie)
+
+    6: The Lamb / End 15 (movie)
+
+    7: ??? / End 14 (movie)
+
+    8: Mega Satan / End 16 (movie)
+
+    9: Greed / End 18 (movie)
+
+    10: Hush / End 17 (movie)
+
+    11: Delirium / End 20 (movie)
+
+    12: Greedier / End 19 (movie)
+
+    13: Mother / End 21 (movie)
+
+    14: The Beast / Final (movie)
+
+    Successful endings increment your win streak. If you pass a bad number like 0 then you can artificially increase your win streak as much as you want.
 
 ___
 ### Fadein () {: aria-label='Functions' }
@@ -200,7 +236,7 @@ ___
 
 Returns the number of frames the gameplay is actively running. Pauses are therefore not included!
 1 second equals 30 frames.
-This function therefore works drastically different than `:::lua Isaac.GetFrameCount()`
+This function therefore works drastically different than [`:::lua Isaac.GetFrameCount()`](Isaac.md#getframecount)
 
 ???- example "Example Code"
     This code returns hours, minutes, seconds, and milliseconds of the game running actively:
@@ -361,6 +397,11 @@ ___
 
 Returns true, if the game is in a state, where the player is unable to input any thing or the game logic is paused. This includes having the pause menu opened, being in room transitions/cutscenes or while displaying a "big book" animation.
 ___
+### Make·Shockwave () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### void MakeShockwave ( [Vector](Vector.md) Position, float Amplitude, float Speed, int Duration ) {: .copyable aria-label='Functions' }
+
+___
 ### Move·To·Random·Room () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
 #### void MoveToRandomRoom ( boolean IAmErrorRoom, int Seed, [EntityPlayer](EntityPlayer.md) Player ) {: .copyable aria-label='Functions' }
@@ -503,48 +544,37 @@ Note that if you use `RoomTransitionAnim.PIXELATION` (2), you must not interrupt
 		* 2: Death Certificate dimension
 
 ???- note "Notes"
-    Available Animation types (Discovered by "ilise rose" (@yatboim)):
 
-    0: (Default) Standard transition, sweeps the room in from a direction
-
-    1: (Fade) Fade to black transition, like its used for the "goto" - console command
-
-    2: (Stage) Pixel out transition, like used for crawlspaces and the trapdoor at the end of floors
-
-    3: (Teleport) teleport transition, isaac teleports out of the current room and into the next
-
-    5: (Ankh) Same as standard transition
-
-    6: (Dead Cat) Same as standard transition
-
-    7: (1Up) Same as standard transition
-
-    8: (Guppys Collar) Same as standard transition
-
-    9: (Judas Shadow) Same as standard transition
-
-    10: (Lazarus Rags) Same as standard transition
-
-    12: (Glowing Hourglass) Same as standard transition
-
-    13: (D7) Same as standard transition
-
-    14: (Missing Poster) Same as standard transition
+	The boss vs screen overrides all of these transitions, however, using RoomTransitionAnim.DEATH_CERTIFICATE will make it so the player appears lying down after the vs screen and the game will be paused while they get up.
 
 ???+ bug "Bugs"
     The Direction variable is completely ignored at all times, with the game instead calculating the direction between the two rooms itself for the animation. The two rooms are the current room and the room of the RoomIndex. It has no impact on the doors either.
 ___
 ### Start·Stage·Transition () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
-#### void StartStageTransition ( boolean SameStage, StageTransition::Animation Animation ) {: .copyable aria-label='Functions' }
+#### void StartStageTransition ( boolean SameStage, int TransitionOverride, [EntityPlayer](EntityPlayer.md) Player ) {: .copyable aria-label='Functions' }
 
-Starts a transition animation like it`s playing when entering a trapdoor to switch between stages.
-**Stage Transition types:**
+Starts a transition animation, like the ones used when entering a trapdoor or light beam to reach the next stage.
 
-* 0: Standard transition. Removes the playermodel before the pixel fadeout. Then plays the Stage Nightmare animation. The player starts in fetal position after the transition.
-* 1: Standard transition with pixel fadein/out, nightmare cutscene but the player model doesnt get removed and starts in the normal standing position after the transition.
-* &gt;2: Same as 0
+`SameStage` will cause the stage to be reseeded if set to true. Otherwise, the game will progress to the next stage. The next stage is selected based on the rules of transition internally defined.
 
+* If [GameStateFlag.STATE_SECRET_PATH](enums/GameStateFlag.md) is set, the transition will move towards the alternate path.
+* If [GameStateFlag.STATE_HEAVEN_PATH](enums/GameStateFlag.md) is set, and the current stage is Womb II / XL or ???, the transition will move towards Cathedral, otherwise it will move toward Sheol.
+* If [GameStateFlag.STATE_BACKWARDS_PATH](enums/GameStateFlag.md) is set, this will progress towards the next stage in the Ascent.
+* If the current stage is Corpse II / XL, the transition will progress towards ???.
+
+
+`TransitionOverride` can be used to trigger special stage transitions that will progress to a stage that is not necessarily the next one available.
+
+* 2: Sacrifice Room teleportation. Progress towards Dark Room regardless of current floor.
+* 3: Void trapdoor. Progress towards The Void regardless of current floor.
+* 4: unknown. Freeze all logic updates, but the console can still be opened.
+* 5: Ascent transition. If `SameStage` is set to true, progress towards the Ascent version of the current floor (softlocks the game if the current floor doesn't have an Ascent version). If `SameStage` is set to false, move to the next stage (in the non Ascent path), and then enter the Ascent version of this new stage.
+* 6: Home Glowing Hourglass. Progress towards Home, regardless of the current floor.
+
+???+ bug "Bug"
+	Contrary to previous beliefs, this function will crash when **not** provided with an EntityPlayer. It is worth noting however, that the function, even when used correctly, is inconsistent and seems to sometimes crash for no reason.
+        Reverse engineering the game shows that the Lua binder associated with this function improperly calls Game::StartStageTransition which results in a C++ stack corruption. As a result, correct calls to this function may or may not crash the game.
 ___
 ### Update () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }

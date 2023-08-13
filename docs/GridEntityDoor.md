@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "GridEntityDoor"
-### Inherits from Class: {: .inheritance }
-[GridEntity](GridEntity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/GridEntityClassDiagram.md"
 ## Functions
 ### Bar () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }

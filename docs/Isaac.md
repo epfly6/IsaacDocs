@@ -1,3 +1,9 @@
+---
+tags:
+  - Globals
+  - Class
+  - Isaac
+---
 # Class "Isaac"
 
 ???+ info
@@ -20,6 +26,12 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### int AddPillEffectToPool ( int pillEffect ) {: .copyable aria-label='Functions' }
 returns pill color
+
+___
+### Add·Priority·Callback () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### void AddPriorityCallback ( table modRef, function callbackId, [CallbackPriority](enums/CallbackPriority.md) priority, table callbackFn, int entityId ) {: .copyable aria-label='Functions' }
+
 ___
 ### Console·Output () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -101,6 +113,14 @@ ___
 Returns entities in range of Radius from Position filtered by Partitions mask (see [EntityPartition enum](enums/EntityPartition.md)) (include all = 0xffffffff)
 
 This function does not return the entities sorted by nearest first, but based on the order they were loaded.
+___
+### Get·Built·In·Callback·State () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### boolean GetBuiltInCallbackState ( function callbackId ) {: .copyable aria-label='Functions' }
+___
+### Get·Callbacks () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### table GetCallbacks ( function callbackId, boolean createIfMissing ) {: .copyable aria-label='Functions' }
 ___
 ### Get·Card·Id·By·Name () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -218,7 +238,7 @@ ___
 
 Returns the amount of frames the game as a whole is running. The counter increases even when the game is paused or when you are in the main menu!
 1 second equals roughtly 60 frames.
-This function therefore works drastically different than `:::lua Game():GetFrameCount()`[Link](Game.md#GetFrameCount)
+This function therefore works drastically different than [`:::lua Game():GetFrameCount()`](Game.md#getframecount)
 
 ___
 ### Get·Free·Near·Position () {: aria-label='Functions' }
@@ -300,7 +320,7 @@ This function is the same as [`Game():GetPlayer()`](Game.md#getplayer).
       local numPlayers = game:GetNumPlayers()
 
       local players = {}
-      for i = 0, numPlayers do
+      for i = 0, numPlayers - 1 do
         local player = Isaac.GetPlayer(i)
         table.insert(players, player)
       end
@@ -358,6 +378,16 @@ ___
 ### Get·Screen·Point·Scale () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
 #### float GetScreenPointScale ( ) {: .copyable aria-label='Functions' }
+
+Returns a number denoting how "zoomed in" the screen is. This can be `1.0` or `2.0`, depending on the resolution of the game window.
+
+???- example "Video Demonstration"
+    <figure class="video_container">
+        <video controls="true" allowfullscreen="true" muted="true" style="width:25rem">
+            <source src="../customData/screen-point-scale.mp4" type="video/mp4">
+        </video>
+        <figcaption>Demonstration of how the size of the game window changes the value this function returns.</figcaption>
+    </figure>
 
 ___
 ### Get·Screen·Width () {: aria-label='Functions' }
@@ -420,7 +450,7 @@ ___
 Spawn a [GridEntity](GridEntity.md) at the given position (world coordinates).
 
 ???+ bug "Bugs"
-    The "forced" argument has no effect and will **not** override the grid entity at the given location. Instead, remove the grid entity at the given location if nessesary before spawning something on top of it.
+    The "forced" argument can override the grid entity at the given location in certain cases. For example: it won't work with a rock, but will work with a rock that's been blown up. You can check the location with `Isaac.GetFreeNearPosition` to see if the game considers that location free. Check the returned grid entity's type to make sure the replacement happened. Otherwise, you may need to remove the grid entity at the given location before spawning something else in its place.
 
 For example, to spawn a super secret rock in the center of the room:
 
@@ -498,7 +528,7 @@ Renders a scaled text on the Screen. X and Y coordinates need to be in screen co
     ```lua
     local player = Isaac.GetPlayer()
     local text = "X: " .. player.Position.X .. ", Y: " .. player.Position.Y
-    Isaac.RenderText(text, 50, 50, 0.5, 0.5, 1, 1, 1, 1)
+    Isaac.RenderScaledText(text, 50, 50, 0.5, 0.5, 1, 1, 1, 1)
     ```
 
 ___
@@ -517,6 +547,16 @@ Renders a text with the default size on the Screen. X and Y coordinates need to 
     Isaac.RenderText("X: "..pos.X.." Y: "..pos.Y, 50, 50, 1 ,1 ,1 ,1 )
 
     ```
+
+___
+### Run·Callback () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### void RunCallback ( function callbackId, table modRef ) {: .copyable aria-label='Functions' }
+
+___
+### Run·Callback·With·Param () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### void RunCallbackWithParam ( function callbackId, table modRef ) {: .copyable aria-label='Functions' }
 
 ___
 ### Save·Mod·Data () {: aria-label='Functions' }
@@ -542,8 +582,13 @@ ___
 ### Screen·To·World·Distance () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### [Vector](Vector.md) ScreenToWorldDistance ( [Vector](Vector.md) pos ) {: .copyable aria-label='Functions' }
+___
+### Set·Built·In·Callback·State () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### void SetBuiltInCallbackState ( function callbackId, boolean state ) {: .copyable aria-label='Functions' }
 
 ___
+
 ### Spawn () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### [Entity](Entity.md) Spawn ( int entityType, int entityVariant, int entitySubtype, [Vector](Vector.md) position, [Vector](Vector.md) velocity, [Entity](Entity.md) Spawner ) {: .copyable aria-label='Functions' }

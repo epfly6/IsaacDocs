@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "EntityLaser"
-### Inherits from Class: {: .inheritance }
-[Entity](Entity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/EntityClassDiagram.md"
 ## Functions
 ### Add·Tear·Flags () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
@@ -31,7 +36,7 @@ Returns a VectorList representing the path of the laser. Seems to typically retu
 ???+ example "Example Usage"
     ```lua
     local samplePoints = laser:GetNonOptimizedSamples()
-    
+
     for i=0, #samplePoints-1 do
         local pos = samplePoints:Get(i)
         ...
@@ -55,7 +60,7 @@ For example, for a completely straight laser, [`GetNonOptimizedSamples()`](#GetN
 ???+ example "Example Usage"
     ```lua
     local samplePoints = laser:GetSamples()
-    
+
     for i=0, #samplePoints-1 do
         local pos = samplePoints:Get(i)
         ...
@@ -74,13 +79,13 @@ ___
 
 ???- note "Note"
     This function cannot differentiate between different types of Circle Laser, however these may be identified by their SubType:
-  
+
     * 0 - Linear Laser (Typical laser with a start and end point)
     * 1 - Ring Ludovico (Controlled laser ring for Ludo synergies)
     * 2 - Ring Projectile (Tech X)
     * 3 - Ring Follow Parent (Maw of the Void)
     * 4 - No Impact (No impact splash, e.g. Tech Zero)
- 
+
 ___
 ### Is·Sample·Laser () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }

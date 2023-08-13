@@ -1,3 +1,10 @@
+---
+tags:
+  - Globals
+  - Class
+search:
+  boost: 0.25
+---
 # Class "EntityRef"
 ## Constructors
 ### Entity·Ref () {: aria-label='Constructors' }

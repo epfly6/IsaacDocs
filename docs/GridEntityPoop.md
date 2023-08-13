@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "GridEntityPoop"
-### Inherits from Class: {: .inheritance }
-[GridEntity](GridEntity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/GridEntityClassDiagram.md"
 ## Functions
 ### Reduce·Spawn·Rate () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -14,9 +19,9 @@ ___
 ___
 ## Variables
 ### Reduced·Spawn·Rate {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .abp .tooltip .badge }
 #### boolean ReducedSpawnRate  {: .copyable aria-label='Variables' }
-
+This attribute got removed with Repentance.
 ___
 ### Revive·Timer {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }

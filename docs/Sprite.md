@@ -1,3 +1,8 @@
+---
+tags:
+  - Globals
+  - Class
+---
 # Class "Sprite"
 ## Constructors
 ### Sprite () {: aria-label='Constructors' }
@@ -94,11 +99,14 @@ ___
 ### Is·Event·Triggered () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean IsEventTriggered ( string EventName ) {: .copyable aria-label='Functions' }
+Returns true if the specified event in the animation is currently being triggered.
 
 ___
 ### Is·Finished () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean IsFinished ( string AnimationName ) {: .copyable aria-label='Functions' }
+
+#### boolean IsFinished ( ) {: .copyable aria-label='Functions' }
 
 ___
 ### Is·Loaded () {: aria-label='Functions' }
@@ -110,15 +118,39 @@ ___
 [ ](#){: .abrep .tooltip .badge }
 #### boolean IsOverlayFinished ( string AnimationName ) {: .copyable aria-label='Functions' }
 
+#### boolean IsOverlayFinished ( ) {: .copyable aria-label='Functions' }
+
 ___
 ### Is·Overlay·Playing () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean IsOverlayPlaying ( string AnimationName ) {: .copyable aria-label='Functions' }
 
+#### boolean IsOverlayPlaying ( ) {: .copyable aria-label='Functions' }
+
 ___
 ### Is·Playing () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean IsPlaying ( string AnimationName ) {: .copyable aria-label='Functions' }
+
+#### boolean IsPlaying ( ) {: .copyable aria-label='Functions' }
+Returns true/false depending on if the sprite is playing the provided animation name. Names are set in a given sprite's anm2 file.
+
+???- example "Example Code"
+    This code checks the name of the current animation ("Appear" and "Idle" are used by cards), then replaces its animations with ones loaded from a custom anm2 file called "Custom_Animations.anm2", which has the same animation names.
+
+    ```lua
+	if mySprite:IsPlaying("Appear") then
+		mySprite:Load("gfx/Custom_Animations.anm2", true)
+		mySprite:LoadGraphics()
+		mySprite:Play("Appear",true)
+		mySprite:Update()
+	elseif mySprite:IsPlaying("Idle") then
+		mySprite:Load("gfx/Custom_Animations.anm2", true)
+		mySprite:LoadGraphics()
+		mySprite:Play("Idle",true)
+		mySprite:Update()
+	end
+    ```
 
 ___
 ### Load () {: aria-label='Functions' }
@@ -280,12 +312,9 @@ ___
 ### Replace·Spritesheet () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### void ReplaceSpritesheet ( int LayerId, string PngFilename ) {: .copyable aria-label='Functions' }
-Changes the ".png" file associated with a specific layer of a sprite.
+Changes the ".png" file associated with a specific layer of a sprite. This does not change other layers using the ".png" file that is being replaced.
 
 After replacing a spritesheet, you must call the `Sprite.LoadGraphics` method afterwards.
-
-???+ note "Notes"
-    The effect is only applied after calling the [LoadGraphics()](#LoadGraphics) function afterwards.
 
 ???- example "Example Code"
     This code creates a new sprite object and replaces the spritesheet of layer 0 of a sprite object with a different spritesheet.
@@ -365,6 +394,7 @@ ___
 ### Was·Event·Triggered () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
 #### boolean WasEventTriggered ( string EventName ) {: .copyable aria-label='Functions' }
+Returns true if the specified event in the animation was triggered at some point, and remains true until the animation stops playing.
 
 ___
 ## Variables

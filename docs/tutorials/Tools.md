@@ -1,3 +1,7 @@
+---
+tags:
+  - Tools
+---
 # Modding Tools
 
 
@@ -16,11 +20,13 @@
 * [Text Sprite Generator](https://wofsauge.github.io/IsaacTools/text_generator.html): Automatically generates Character- and VS Screen text sprites
 * [Character Sheet Generator](https://wofsauge.github.io/IsaacTools/charactersheet_generator.html): Tool that automatically generates teleport and Missing No. Sprites for your character's spritesheet
 * [Repentance Run Tracker](https://github.com/aymericingargiola/repentance-run-tracker): Tool that shows and records extensive informations about your runs.
+* [EzItems](https://ddeeddii.github.io/ezitems-web/): Tool to automatically write a mod that is able to rename items and trinkets. Both their name and description are supported.
+* [Skin Color Variant Generator](https://github.com/wofsauge/IsaacTools/blob/main/skin_color_variants.py): Tool to automatically generate skin color variants of costume sprites
 
 ## Coding Tools
 * [Visual Studio Code](https://code.visualstudio.com/) : Free Coding environment
     * Plug-In: [ "Lua" ](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) Provides a lot of QoL features, syntax Check, Reference checks, IntelliSense, Auto complete, ...
-    * Plug-In:  [vscode-isaac-afterbirth-plus](https://marketplace.visualstudio.com/items?itemName=Zamiel.vscode-isaac-afterbirth-plus) Auto-complete for Isaac Enums
+    * Plug-In:  [Binding of Isaac Lua API](https://marketplace.visualstudio.com/items?itemName=Filloax.isaac-lua-api-vscode) Auto-complete for Isaac API Enums, functions and features
 * [Notepad++](https://notepad-plus-plus.org/downloads/) : Free Coding environment
 * [ZeroBrane Studio](https://studio.zerobrane.com/) : Free Coding environment
     * Plug-In: [Afterbirth-API-for-ZeroBrane (outdated)](https://github.com/Yusyuriv/Afterbirth-API-for-ZeroBrane) Autocomplete for Isaac API functions and enums
@@ -56,13 +62,16 @@ Extended version of the default game with extra features, bugfixes and modding s
 
 This does not contain or work with the Eternal Update!
 
-#### Install instructions (not verified / propably needs work)
+#### Video Tutorial
+Here is a video tutorial on how to install Spidermod: [https://www.youtube.com/watch?v=E0vagIRSgPc](https://www.youtube.com/watch?v=E0vagIRSgPc)
+
+#### Install instructions (outdated and incomplete)
 1. Download and unpack the zip file in any folder and directory you want.
 3. You may need to install Adobe Flash Player, for it to work. This can be a bit complicated because Flash Player is no longer access and downloadable because Flash is no longer supported.
 2. You may also need to set your Windows system time back to 2018, since Flash player is no longer supposed to work on newer systems
 4. Start the "Binding of Isaac WOTL SpiderMod.exe" file to play the mod
 
-If the window doesn't display anything or you have some "Class not registered" error, download Adobe Flash Player for **Internet Explorer**. Link [!PUT LINK HERE!]
+If the window doesn't display anything or you have some "Class not registered" error, download Adobe Flash Player for **Internet Explorer**. [!PUT LINK HERE!]
 
 ### Community Remix mod
 **Download Link:** [Community Remix mod](https://mega.nz/file/Xp00AIjL#FP_8hI46jtN_zB0O1C8Z2neU55hQdWr1oqOgoua8gEk)

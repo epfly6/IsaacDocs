@@ -1,3 +1,9 @@
+---
+tags:
+  - Class
+search:
+  boost: 0.25
+---
 # Class "GridEntityDesc"
 ## Variables
 ### Initialized {: aria-label='Variables' }

@@ -1,3 +1,7 @@
+---
+tags:
+  - FAQ
+---
 # The Binding of Isaac: Repentance Modding FAQ
 
 ## General
@@ -32,7 +36,7 @@ The wiki also has a [list of every console command](https://bindingofisaacrebirt
 
 ### How do I get started modding Isaac? (getting started) {: .subHeader}
 
-We generally recommend that people watch the Lytebringr's series of [video tutorials on YouTube](https://www.youtube.com/playlist?list=PLMZJyHSWa_My5DDoTQcKCgs475xIpQHSF). These videos were made after the Afterbirth+ DLC was released, but not much has changed now that Repentance DLC is out, so they are still your best bet for learning the ropes.
+We generally recommend that people watch the [Lytebringr's series of video tutorials on YouTube](https://www.youtube.com/playlist?list=PLMZJyHSWa_My5DDoTQcKCgs475xIpQHSF). These videos were made after the Afterbirth+ DLC was released, but not much has changed now that Repentance DLC is out, so they are still your best bet for learning the ropes.
 
 The main difference is that the location of [the mods directory has changed](#where-is-the-directoryfolder-for-mods-located).
 
@@ -222,6 +226,8 @@ The tried-and-true method to figure out almost any bug is called "print debuggin
 
 Often times, the reason that your code is not working is that your variables are not what you think they are. So, print out what the variables are at each step of the way so that you can confirm that they are what you think they are. Use something along the lines of: `Isaac.DebugString("GETTING HERE - FOO IS: " .. tostring(foo))`
 
+You might also want to use a log viewer like [this one](https://github.com/Zamiell/isaac-log-viewer).
+
 ### I modified an XML file and the game crashes when I open it or when I go into a new run. {: .subHeader}
 
 A crash means that the XML file is invalid, meaning that you messed up somewhere while editing the file. Start over from scratch and make tiny edits one at a time until you find the exact part that crashes the game.
@@ -376,7 +382,7 @@ There is no vanilla callback for this. As a workaround, you can check `EntityPla
 
 For :material-language-typescript:[IsaacScript](https://isaacscript.github.io/) users, you can use the provided [:material-language-typescript:MC_POST_ITEM_PICKUP](https://isaacscript.github.io/docs/function-signatures-custom#mc_post_item_pickup) callback.
 
-If you want to implement this callback yourself, the source code / algorithm is provided [here]([https://github.com/IsaacScript/isaacscript-common/blob/main/src/callbacks/itemPickup.ts](https://github.com/IsaacScript/isaacscript/blob/main/packages/isaacscript-common/src/callbacks/itemPickup.ts)).
+If you want to implement this callback yourself, the source code / algorithm is provided [here](https://github.com/IsaacScript/isaacscript-common/blob/main/src/callbacks/itemPickup.ts).
 
 ### How do you tell what the entity type, variant, or subtype of a particular entity is? {: .subHeader}
 
@@ -546,7 +552,7 @@ For example, in Lua:
 
 ### What is the difference between `require` and `include`? {: .subHeader}
 
-See the [docs](../tutorials/Using-Additional-Lua-Files.md).
+See the [tutorial on using additional Lua files](../tutorials/Using-Additional-Lua-Files.md).
 
 ### What is the difference between `pairs` and `ipairs`? {: .subHeader}
 
@@ -639,7 +645,11 @@ These are some tips on how to improve communication.
 
 ### Read the Docs
 
-This is the webpage for the Isaac modding documentation, or "the docs" for short. Please search the docs using the search feature in the top-right-hand corner before asking a question to other modders.
+A lot of basic questions about Isaac modding can be answered by "reading the manual". In this case, the "manual" is the unofficial community documentation website, created by famous Isaac modder Wofsauge. (The community documentation website is much better than the "normal" documentation that comes included with the game, which is incomplete, hard to search, and buggy.)
+
+In fact, the website you are on right now is the community docs. Welcome! Use the search bar in the top right hand corner to easily look up the information you need. For example, if you wanted to know how to get the soul hearts of a player, you could search for "soul hearts", and then you would find the `EntityPlayer.GetSoulHearts` method.
+
+Now that you know about the docs, please remember to search the docs before asking a question in the Isaac community Discord server. By asking questions that can be easily answered by searching the docs, it is not being very respectful to the volunteers who spend their time answering questions.
 
 ### Use Discord Syntax Highlighting {: .subHeader}
 
@@ -670,7 +680,7 @@ When asking for help, it is common to post a code-snippet. Before posting code, 
 
 ### Avoid Posting Screenshots {: .subHeader}
 
-When asking for help, it is common to post a screenshot of your code. **Don't do this**, because it isn't editable or copy-pasteable. Instead, post the actual text of the code. Also see the section on [Discord syntax highlighting](#use-discord-syntax-highlighting).
+When asking for help, it is common to post a screenshot of your code. **Don't do this**, because it isn't editable, or copy-pasteable, or searchable. Instead, post the actual text of the code. Also see the section on [Discord syntax highlighting](#use-discord-syntax-highlighting).
 
 ### Use Minimal, Reproducible Examples {: .subHeader}
 
@@ -680,7 +690,7 @@ Please read [this StackOverflow post on how to create minimal, reproducible exam
 
 ### Avoid Using Link Previews {: .subHeader}
 
-Link previews can clutter the conversion, turning a tiny message into a massive wall of text. It is courteous to enclose all links in <>.
+Link previews can clutter the conversion, turning a tiny message into a massive wall of text. It is courteous to enclose all links in <>, which will disable the feature.
 
 For example:
 

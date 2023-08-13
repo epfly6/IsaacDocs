@@ -35,6 +35,7 @@ nav:
             - "BombVariant": enums/BombVariant.md
             - "ButtonAction": enums/ButtonAction.md
             - "CacheFlag": enums/CacheFlag.md
+            - "CallbackPriority": enums/CallbackPriority.md
             - "Card": enums/Card.md
             - "Challenge": enums/Challenge.md
             - "ChampionColor": enums/ChampionColor.md
@@ -67,6 +68,7 @@ nav:
             - "KeySubType": enums/KeySubType.md
             - "LaserOffset": enums/LaserOffset.md
             - "LaserSubType": enums/LaserSubType.md
+            - "LaserVariant": enums/LaserVariant.md
             - "LevelCurse": enums/LevelCurse.md
             - "LevelStage": enums/LevelStage.md
             - "LevelStateFlag": enums/LevelStateFlag.md
@@ -105,6 +107,7 @@ nav:
             - "WeaponType": enums/WeaponType.md
         - "Globals": Globals.md
         - "Global Functions": GlobalFunctions.md
+        - "BitSet128": BitSet128.md
         - "Color": Color.md
         - "CppContainer":
             - "ArrayProxy":
@@ -175,7 +178,6 @@ nav:
         - "RoomDescriptor": RoomDescriptor.md
         - "RNG": RNG.md
         - "Seeds": Seeds.md
-        - "ShockwaveParams": ShockwaveParams.md
         - "Sprite": Sprite.md
         - "SFXManager": SFXManager.md
         - "TearParams": TearParams.md
@@ -184,6 +186,17 @@ nav:
         - "Vector": Vector.md
     - Entities:
         - "Overview": entities/Overview.md
+        - "Boss Data":
+          - "Chapter 1": entities/bosses/Chapter1.md
+          - "Chapter 1.5": entities/bosses/Chapter1-5.md
+          - "Chapter 2": entities/bosses/Chapter2.md
+          - "Chapter 2.5": entities/bosses/Chapter2-5.md
+          - "Chapter 3": entities/bosses/Chapter3.md
+          - "Chapter 3.5": entities/bosses/Chapter3-5.md
+          - "Chapter 4": entities/bosses/Chapter4.md
+          - "Chapter 4.5": entities/bosses/Chapter4-5.md
+          - "Final Bosses": entities/bosses/FinalBosses.md
+        - "Entity Data": entities/EntityData.md
         - "Fissure Spawner": entities/FissureSpawner.md
         - "Ball & Chain": entities/SpikeBallChain.md
     - Tutorials:
@@ -200,6 +213,7 @@ nav:
         - "Directories and save files": tutorials/directories-and-save-files.md
         - "Mod Organization": "tutorials/mod-organization.md"
         - "Storing Data": "tutorials/storing-data.md"
+        - "Custom Callbacks": tutorials/CustomCallbacks.md
     - XMLs:
         - "XML Overview": xml/XMLFiledocumentation.md
         - "achievements.xml" : xml/achievements.md
@@ -240,11 +254,14 @@ nav:
         - "wisps.xml" : xml/wisps.md
     - FAQ:
         - "FAQ" : faq/faq.md
+        - "interactive FAQ" : faq/interactive_FAQ.md
     - Tools:
         - "Tools Overview" : tutorials/Tools.md
+        - "XML Validator" : tutorials/Tool_XMLValidator.md
         - "Animation Editor" : tutorials/Tool_AnimationEditor.md
         - "Itempool Editor" : tutorials/Tool_ItemPoolEditor.md
     - Bugs: https://github.com/Meowlala/RepentanceAPIIssueTracker
+    - Tags: tags.md
     - Lua 5.3 Docs: https://www.lua.org/manual/5.3/
 theme:
     name: material
@@ -266,6 +283,8 @@ theme:
             name: Switch to dark mode
         - media: "(prefers-color-scheme: dark)"
           scheme: slate
+          primary: amber
+          accent: amber
           toggle:
             icon: material/weather-sunny
             name: Switch to light mode
@@ -275,8 +294,15 @@ markdown_extensions:
       toc_depth: 3
   - pymdownx.highlight:
       linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      check_paths: true
+      url_download: true
   - admonition
   - pymdownx.details
   - pymdownx.emoji:
@@ -291,23 +317,31 @@ plugins:
   - git-revision-date-localized:
       fallback_to_build_date: true
       type: date
+  - tags:
+      tags_file: tags.md
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/wofsauge/IsaacDocs
       name: "BoI: Lua API Docs on GitHub"
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/isaac
+      name: "Official Discord Server"
   version:
     provider: mike
     default: rep
+  analytics:
+    provider: google
+    property: G-ZBKP3LLT96
 extra_css:
     - css/custom.css
 extra_javascript:
-    - https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
+    - https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js
     - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js
     - js/tablesort.number.min.js
     - js/customJS.js
     - js/jquery.mark.min.js
-copyright: Copyright &copy; 2021 - 2022 Wofsauge
+copyright: "Copyright &copy; 2021 - 2023 Wofsauge (Discord: Wofsauge#6503)"
 repo_url: https://github.com/wofsauge/IsaacDocs
 repo_name: wofsauge/IsaacDocs
 edit_uri: edit/main/docs/

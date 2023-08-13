@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "EntityTear"
-### Inherits from Class: {: .inheritance }
-[Entity](Entity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/EntityClassDiagram.md"
 ## Functions
 ### Add·Tear·Flags () {: aria-label='Functions' }
 [ ](#){: .rep .tooltip .badge }
@@ -59,9 +64,11 @@ ___
 
 ___
 ### Bounced {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .abp .tooltip .badge }
 #### boolean Bounced  {: .copyable aria-label='Variables' }
-true if tear bounced of something
+true if tear bounced off something.
+
+This attribute got removed with Repentance.
 ___
 ### Can·Trigger·Streak·End {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }

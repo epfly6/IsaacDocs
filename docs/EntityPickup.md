@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "EntityPickup"
-### Inherits from Class: {: .inheritance }
-[Entity](Entity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/EntityClassDiagram.md"
 ## Functions
 ### Appear·Fast () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -96,6 +101,8 @@ ___
 ### Timeout {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
 #### int Timeout  {: .copyable aria-label='Variables' }
+
+Causes the pickup to blink and then disappear after a certain amount of time like the temporary health dropped from tainted maggy. The value decreases by 1 every game frame and after hitting 0 the pickup disappears. If the Timeout is set to -1(the default value for normal pickups) the pickup will act normally and not disappear.
 
 ___
 ### Touched {: aria-label='Variables' }

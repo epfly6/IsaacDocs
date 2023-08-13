@@ -1,3 +1,8 @@
+---
+tags:
+  - Globals
+  - Class
+---
 # Class "Options"
 
 The `Options` class represents the values contained within the user's `options.ini` file. For example, this is useful so that mods that add things to the HUD can properly account for the `HUDOffset`.
@@ -41,14 +46,14 @@ ___
 0: default, 1: small, 2: tiny
 
 ___
-### Display·Popups {: aria-label='Variables' }
-[ ](#){: .rep .tooltip .badge }
-#### boolean DisplayPopups  {: .copyable aria-label='Variables' }
-
-___
 ### Debug·Console·Enabled {: aria-label='Variables' }
 [ ](#){: .rep .tooltip .badge }
 #### boolean DebugConsoleEnabled  {: .copyable aria-label='Variables' }
+
+___
+### Display·Popups {: aria-label='Variables' }
+[ ](#){: .rep .tooltip .badge }
+#### boolean DisplayPopups  {: .copyable aria-label='Variables' }
 
 ___
 ### Extra·HUD·Style {: aria-label='Variables' }

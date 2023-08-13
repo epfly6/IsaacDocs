@@ -11,8 +11,12 @@
     --operator-color: #CE93D8;
     --operator-color-light: #E1BEE7;
     --operator-overview-bg-color: #F3E5F5;
+    --constants-color: #d89393;
+    --constants-color-light: #e7bebe;
+    --constants-overview-bg-color: #f5e5e5;
     --abp-color: #FDD835;
     --rep-color: #F44336;
+    --md-typeset-mark-text-color: #000000;
 }
 
 nav[aria-label='Functions'] {
@@ -29,6 +33,10 @@ nav[aria-label='Constructors'] {
 
 nav[aria-label='Operators'] {
     border-left-color: var(--operator-color) !important;
+}
+
+nav[aria-label='Constants'] {
+    border-left-color: var(--constants-color) !important;
 }
 
 .md-typeset h2 {
@@ -52,6 +60,7 @@ nav[aria-label='Operators'] {
 h3[aria-label$='Functions'],
 h3[aria-label$='Variables'],
 h3[aria-label$='Operators'],
+h3[aria-label$='Constants'],
 h3[aria-label$='Constructors'] {
     border-radius: 5px 5px 0px 0px;
     padding: 0px 10px;
@@ -75,9 +84,14 @@ h3[aria-label$='Operators'] {
     background-color: var(--operator-color);
 }
 
+h3[aria-label$='Constants'] {
+    background-color: var(--constants-color);
+}
+
 h4[aria-label$='Functions'],
 h4[aria-label$='Variables'],
 h4[aria-label$='Operators'],
+h4[aria-label$='Constants'],
 h4[aria-label$='Constructors'] {
     border-radius: 0px 5px 5px 5px;
     padding: 2px 10px;
@@ -101,6 +115,10 @@ h4[aria-label$='Constructors'] {
 
 h4[aria-label$='Operators'] {
     background-color: var(--operator-color-light);
+}
+
+h4[aria-label$='Constants'] {
+    background-color: var(--constants-color-light);
 }
 
 .subHeader {
@@ -216,7 +234,16 @@ a.const.tooltip:after {
     --operator-color: #BA68C8;
     --operator-color-light: #272938;
     --operator-overview-bg-color: rgb(186 104 200 / 50%);
+    --constants-color: #c86868;
+    --constants-color-light: #382727;
+    --constants-overview-bg-color: rgba(200, 104, 104, 0.5);
     --md-hue: 232;
+
+    --md-primary-fg-color: #4051b5;
+    --md-primary-bg-color: #FFFFFF;
+    --md-primary-bg-color: rgb(255 255 255 / 87%);
+    --md-primary-bg-color--light: rgb(255 255 255 / 54%);
+
     --md-default-fg-color: hsla(var(--md-hue), 75%, 95%, 1);
     --md-default-fg-color--light: hsla(var(--md-hue), 75%, 90%, 0.62);
     --md-default-fg-color--lighter: #ffc41e;
@@ -238,6 +265,7 @@ a.const.tooltip:after {
     --md-accent-fg-color: #ffc41e;
     /*var(--md-primary-fg-color--light);*/
     --md-typeset-mark-color: #ffc41e;
+    --md-typeset-mark-text-color: #000000;
     --md-typeset-kbd-color: hsla(var(--md-hue), 15%, 94%, 0.12);
     --md-typeset-kbd-accent-color: hsla(var(--md-hue), 15%, 94%, 0.2);
     --md-typeset-kbd-border-color: hsla(var(--md-hue), 15%, 14%, 1);
@@ -254,6 +282,7 @@ a.const.tooltip:after {
     --md-code-hl-keyword-color: hsla(219, 66%, 64%, 1);
     --md-code-hl-string-color: hsla(150, 58%, 44%, 1);
 }
+
 
 
 /**** TOOLTIP ****/
@@ -292,7 +321,12 @@ a.tooltip:hover:after {
 /**** Mark.js Highlights ****/
 
 .md-typeset mark {
-    color: black;
+    color: var(--md-typeset-mark-text-color);
+}
+
+.hideMarks{
+    --md-typeset-mark-color: #00000000; /*Make yellow highlight invisible if applied*/
+    --md-typeset-mark-text-color: initial;
 }
 
 .clearSearchMarks {
@@ -303,10 +337,9 @@ a.tooltip:hover:after {
     line-height: 1.8rem;
 }
 
-.clearSearchMarks:hover {
+.clearSearchMarks>label:hover, .clearSearchMarks>input:hover {
     cursor: pointer;
 }
-
 
 /**** WEBSITE FORMATTING ****/
 
@@ -332,7 +365,9 @@ details>summary {
 
 .md-footer-meta__inner {
     /* footer bar a bit smaller */
-    padding: 0;
+    padding: 0.5em 1em;
+    font-size: 0.75em;
+    line-height: 2.3;
 }
 
 .md-tabs__link {
@@ -393,11 +428,16 @@ div[data-md-component$="announce"] {
 }
 
 .md-search-result__title {
-    line-height: 0.7;
+    line-height: 1;
+    margin: 0.25em 0;
 }
 
 .md-search-result__more summary {
     padding: 0.5em .8rem;
+}
+
+.md-search-result__article .md-tag {
+    display: none;
 }
 
 
@@ -461,7 +501,8 @@ div[data-md-component$="announce"] {
 
 .copyButton>span {
     visibility: hidden;
-    min-width: 13em;
+    width: max-content;
+    max-width: 80vw;
     opacity: 0;
     transform: translateX(-50%);
     background-color: var(--md-accent-fg-color);
@@ -550,6 +591,10 @@ td>.copyButton>span::after {
 
 .contentTable tr[aria-label$='Operators'] {
     background-color: var(--operator-overview-bg-color);
+}
+
+.contentTable tr[aria-label$='Constants'] {
+    background-color: var(--constants-overview-bg-color);
 }
 
 .overviewHeader {
@@ -715,4 +760,22 @@ td>.copyButton>span::after {
     height: 1rem;
     width: 1rem;
     margin: 0.3rem;
+}
+
+/*** Interactive FAQs ***/
+#faq_buttons {
+    margin: 1em;
+}
+
+.faqButton {
+    margin: 0.25em;
+}
+
+#faq_text {
+    min-height: 10em;
+}
+
+/*** Hide diagrams in their "codeblock" version, which exists on page load **/
+.mermaidDiagram > pre{
+    visibility: hidden;
 }

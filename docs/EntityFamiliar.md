@@ -1,6 +1,11 @@
+---
+tags:
+  - Class
+---
 # Class "EntityFamiliar"
-### Inherits from Class: {: .inheritance }
-[Entity](Entity.md)
+
+## Class Diagram
+--8<-- "docs/snippets/EntityClassDiagram.md"
 ## Functions
 ### Add·Coins () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -151,6 +156,16 @@ ___
 #### int Hearts  {: .copyable aria-label='Variables' }
 
 ___
+### Is·Delayed {: aria-label='Variables' }
+[ ](#){: .abrep .tooltip .badge }
+#### boolean IsDelayed {: .copyable aria-label='Variables' }
+
+___
+### Is·Follower {: aria-label='Variables' }
+[ ](#){: .abrep .tooltip .badge }
+#### boolean IsFollower {: .copyable aria-label='Variables' }
+
+___
 ### Keys {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
 #### int Keys  {: .copyable aria-label='Variables' }
@@ -190,6 +205,17 @@ ___
 #### [Vector](Vector.md) OrbitDistance  {: .copyable aria-label='Variables' }
 
 Defines the orbit of the familiar, if its an orbital. The Vector is interpreted as the dimensions of the circle/oval orbit. Example: `:::lua Vector(110,90)` is the orbital of "Forever alone".
+___
+### Orbit·Layer {: aria-label='Variables' }
+[ ](#){: .abrep .tooltip .badge }
+#### int OrbitLayer  {: .copyable aria-label='Variables' }
+
+This value is `-1` by default, and changes to whichever value is defined by `EntityFamiliar:AddToOrbit()`.
+___
+### Orbit·Speed {: aria-label='Variables' }
+[ ](#){: .abrep .tooltip .badge }
+#### float OrbitSpeed  {: .copyable aria-label='Variables' }
+
 ___
 ### Player {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }

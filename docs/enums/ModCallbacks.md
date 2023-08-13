@@ -1,3 +1,10 @@
+---
+tags:
+  - Enum
+
+search:
+  boost: 3
+---
 # Enum "ModCallbacks"
 Execution order diagram: [![callback diagram](../images/infographics/Isaac Callbacks.svg){: width='500' }](../images/infographics/Isaac Callbacks.svg)
 
@@ -177,6 +184,8 @@ Returning any value will have no effect on later callback executions.
 ### MC_EVALUATE_CACHE {: .copyable }
 Called one or more times when a player's stats are re-evaluated. For example, this will fire after the player picks up a collectible item that grants stats or uses a stat pill.
 
+The optional parameter can be used to specify a CacheFlag. It must be a singular CacheFlag, a composition of two or more CacheFlags will not work.
+
 Returning any value will have no effect on later callback executions.
 
 Use this callback to implement anything that changse the player's stats, familiars, flying, weapons, and so on.
@@ -202,7 +211,7 @@ You can force this callback to fire in other callbacks by 1) manually adding the
 -- My custom item changes the player's damage on every frame
 function barPostPEffectUpdate(player)
   player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-  player:EvaluateCache() -- The "MC_EVALUATE_CACHE" callback will now fire
+  player:EvaluateItems() -- The "MC_EVALUATE_CACHE" callback will now fire.
 end
 ```
 
@@ -224,7 +233,7 @@ Returning any value will have no effect on later callback executions.
 
 ???- info "Conditional Behaviour [ ](#){: .rep .tooltip .badge }"
     This callback causes many `EntityPlayer` methods to silently fail if the methods are called while continuing a saved run. This behavior was intentionally added by Kilburn in the Repentance DLC in order to make it easier for modders to add starting items to custom characters. (This behavior obviaties the need for modders to use filtration logic to distinguish between the cases of a new run/Genesis use/co-op spawn and a continued run.)
-    
+
     The following EntityPlayer methods are known to fail:
 
     ```lua
@@ -255,9 +264,9 @@ Returning any value will have no effect on later callback executions.
     AddPoopMana
     SetPocketActiveItem
     ```
-    
+
     The following EntityPlayer methods have been verified to continue firing:
-    
+
     ```lua
     AddBlueFlies
     AddBlueSpider
@@ -266,7 +275,7 @@ Returning any value will have no effect on later callback executions.
     AddSwarmFlyOrbital
     AddFriendlyDip
     ```
-    
+
 
 |DLC|Value|Name|Function Args|Optional Args|Return Type|
 |:--|:--|:--|:--|:--|:--|
@@ -310,7 +319,7 @@ Return true or nil if the entity or player should sustain the damage, otherwise 
 
 |DLC|Value|Name|Function Args|Optional Args|Return Type|
 |:--|:--|:--|:--|:--|:--|
-|[ ](#){: .abrep .tooltip .badge }|11 |MC_ENTITY_TAKE_DMG {: .copyable } | (TookDamage [[Entity](../Entity.md)],<br>DamageAmount [float],<br>[DamageFlags](DamageFlag.md) [int],<br>DamageSource [[EntityRef](../EntityRef.md)],<br>DamageCountdownFrames [int])|[EntityType](EntityType.md) | boolean |
+|[ ](#){: .abrep .tooltip .badge }|11 |MC_ENTITY_TAKE_DMG {: .copyable } | (Entity [[Entity](../Entity.md)],<br>Amount [float],<br>[DamageFlags](DamageFlag.md) [int],<br>Source [[EntityRef](../EntityRef.md)],<br>CountdownFrames [int])|[EntityType](EntityType.md) | boolean |
 
 ### MC_POST_CURSE_EVAL {: .copyable }
 Curses is a bitmask containing current [curses](LevelCurse.md). Called after the current Level applied it's curses. Returns the new curse bitmask. Use `Isaac.GetCurseIdByName()` to get the curseID.
@@ -329,12 +338,16 @@ If a number is returned, it will be the "Curses" arg for later executed callback
 
 ### MC_INPUT_ACTION {: .copyable }
 
+This callback fires every time the game polls for a [ButtonAction](ButtonAction.md) input, often several times per frame even for the same action. Since it has to do with polling, it fires regardless of whether or not the player is actually pressing any particular input.
+
 This callback is used to arbitrarily change inputs. For example, you can completely disable the player from pressing a certain button. Or, you can force the player to press a specific button, and so on. If all you want to do is *read* if an input is pressed or not, then you should not use this callback, and instead use the `Input.IsActionTriggered` method in the `MC_POST_RENDER` callback.
 
-- [Entity](../Entity.md) - The entity that is requesting the input. Most of the time this will be a player. However, it can also be nil if the input is not read from an entity class.
-- [InputHook](InputHook.md) - This determines the kind of input that is being polled. This corresponds to the `Input.IsActionTriggered`, `Input.IsActionPressed`, and `Input.GetActionValue` methods.
+This callback will not affect any custom mod code that is reading user input via the `Input` class.
 
-Return nil if you do not want to overwrite the input. If you do want to overwrite the input, then you have to return a boolean for the `IS_ACTION_PRESSED` (0) and `IS_ACTION_TRIGGERED` (1) input hooks, or a float between 0.0 and 1.0 for the `GET_ACTION_VALUE` (2) input hook. 
+- [Entity](../Entity.md) - The entity that is requesting the input. Most of the time this will be a player. However, it can also be nil if the input is not read from an entity class, or an entity being controlled by Friend Finder.
+- [InputHook](InputHook.md) - This determines the kind of input that is being polled. This corresponds to the `Input.IsActionTriggered`, `Input.IsActionPressed`, and `Input.GetActionValue` methods, which trigger this callback.
+
+Return nil if you do not want to overwrite the input. If you do want to overwrite the input, then you have to return a boolean for the `IS_ACTION_PRESSED` (0) and `IS_ACTION_TRIGGERED` (1) input hooks, or a float between 0.0 and 1.0 for the `GET_ACTION_VALUE` (2) input hook.
 
 Returning any value will have no effect on later callback executions.
 
@@ -508,6 +521,10 @@ Return true to prevent the default code of an item to be triggered. This will st
 Called right before an entity is spawned.
 
 Optional: Return a table with new values `{ Type, Variant, Subtype, Seed }` to override these values of the spawned entity.
+
+If you want to prevent an entity from spawning, you cannot return an `EntityType` of 0, since that will cause the game to crash.
+
+Sometimes, if you return a type other than the original type (e.g. replacing a pickup with an effect), the game will crash. Thus, you should replace a pickup with a new pickup, and so on.
 
 ???+ bug
     Returning a value that is not a table or nil will cause the game to crash.
@@ -863,9 +880,9 @@ Returning any non-nil value will skip remaining callbacks.
 ### MC_POST_FIRE_TEAR {: .copyable }
 Called when the player fires a tear.
 
-It is not called for other weapons or tears fired with Incubus.
-
 Returning any value will have no effect on later callback executions.
+
+For Afterbirth+, this is not called for other weapons or tears fired with Incubus. In Repentance, it works for tears fired with Incubus.
 
 |DLC|Value|Name|Function Args|Optional Args|Return Type|
 |:--|:--|:--|:--|:--|:--|
@@ -1017,4 +1034,20 @@ Returning any value will have no effect on later callback executions.
 
 |DLC|Value|Name|Function Args|Optional Args|Return Type|
 |:--|:--|:--|:--|:--|:--|
-|[ ](#){: .abrep .tooltip .badge }|71 |MC_PRE_ROOM_ENTITY_SPAWN {: .copyable } | ([EntityType](EntityType.md),<br>Variant [int],<br>SubType [int],<br>GridIndex [int],<br>Seed [int]) | - | void |
+|[ ](#){: .abrep .tooltip .badge }|71 |MC_PRE_ROOM_ENTITY_SPAWN {: .copyable } | ([EntityType](EntityType.md),<br>Variant [int],<br>SubType [int],<br>GridIndex [int],<br>Seed [int]) | - | table |
+
+### MC_PRE_ENTITY_DEVOLVE {: .copyable }
+This is called when an entity is devolved through D10 or similar.
+
+Returns true if the internal devolving behavior should be ignored - When returning true, this callback is responsible for spawning the devolved entity and removing the original one.
+
+|DLC|Value|Name|Function Args|Optional Args|Return Type|
+|:--|:--|:--|:--|:--|:--|
+|[ ](#){: .rep .tooltip .badge }|72 |MC_PRE_ENTITY_DEVOLVE {: .copyable } | ([Entity](../Entity.md)) | - | boolean |
+
+### MC_PRE_MOD_UNLOAD {: .copyable }
+This is called right before any mod is unloaded (when disabling a mod or reloading it using luamod), the mod's table is passed as an argument
+
+|DLC|Value|Name|Function Args|Optional Args|Return Type|
+|:--|:--|:--|:--|:--|:--|
+|[ ](#){: .rep .tooltip .badge }|73 |MC_PRE_MOD_UNLOAD {: .copyable } | table Mod | - | void |

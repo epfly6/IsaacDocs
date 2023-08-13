@@ -1,3 +1,10 @@
+---
+tags:
+  - Globals
+  - Class
+search:
+  boost: 0.25
+---
 # Class "ProjectileParams"
 ## Constructors
 ### Projectile·Params () {: aria-label='Constructors' }

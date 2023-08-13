@@ -1,3 +1,8 @@
+---
+tags:
+  - Globals
+  - Class
+---
 # Class "KColor"
 ## Constructors
 ### KColor () {: aria-label='Constructors' }
@@ -5,7 +10,10 @@
 #### [KColor](KColor.md) KColor ( float red, float green, float blue, float alpha ) {: .copyable aria-label='Constructors' }
 
 Constructor for the "KColor" class.
-Notes: "KColor" is only used in the [Font](Font.md) class. For most other situations you will need to use the [Color()](Color.md) constructor.
+
+???+ note "Notes"
+	"KColor" is only used in the [Font](Font.md) class. For most other situations you will need to use the [Color()](Color.md) constructor.
+
 ___
 ## Variables
 ### Alpha {: aria-label='Variables' }

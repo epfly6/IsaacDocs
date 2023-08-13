@@ -1,3 +1,9 @@
+---
+tags:
+  - Class
+search:
+  boost: 0.25
+---
 # Class "RoomConfigEntry"
 ???+ info
     You can get this class by using the following function:

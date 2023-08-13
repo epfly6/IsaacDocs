@@ -1,8 +1,12 @@
+---
+tags:
+  - Class
+---
 # Class "ItemConfigItem"
 ## Functions
 ___
 ### Has·Tags () {: aria-label='Functions' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### boolean HasTags ( int Tags ) {: .copyable aria-label='Functions' }
 
 Returns true or false, depending on whether or not the item has the given [tag](enums/ItemConfig.md).
@@ -12,6 +16,11 @@ Returns true or false, depending on whether or not the item has the given [tag](
     ```lua
     Isaac.GetItemConfig():GetCollectible(1):HasTags(ItemConfig.TAG_BOB)
     ```
+___
+### Is·Available () {: aria-label='Functions' }
+[ ](#){: .rep .tooltip .badge }
+#### boolean IsAvailable ( ) {: .copyable aria-label='Functions' }
+
 ___
 ### Is·Collectible () {: aria-label='Functions' }
 [ ](#){: .abrep .tooltip .badge }
@@ -56,6 +65,12 @@ ___
 
 Returns the number of coins the item adds to the player.
 ___
+### Add·Costume·On·Pickup {: aria-label='Variables' }
+[ ](#){: .rep .tooltip .badge }
+#### boolean AddCostumeOnPickup  {: .copyable aria-label='Variables' }
+
+Returns whether or not the item adds its costume on pickup.
+___
 ### Add·Hearts {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
 #### int AddHearts  {: .copyable aria-label='Variables' }
@@ -87,7 +102,7 @@ ___
 Returns the [CacheFlags](enums/CacheFlag.md) set by the item.
 ___
 ### Charge·Type {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### int ChargeType  {: .copyable aria-label='Variables' }
 
 The ChargeType of the item, shown in [items.xml](xml/items.md). If the item has no defined ChargeType, it will return ``:::lua 0``
@@ -100,7 +115,7 @@ The ChargeType of the item, shown in [items.xml](xml/items.md). If the item has 
     ```
 ___
 ### Clear·Effects·On·Remove {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### boolean ClearEffectsOnRemove  {: .copyable aria-label='Variables' }
 
 Returns whether or not the item's effects should be removed when the item is removed.
@@ -110,6 +125,12 @@ ___
 #### const [Costume](ItemConfig_Costume.md) Costume {: .copyable aria-label='Variables' }
 
 Returns the costume given to the player by the item.
+___
+### CraftingQuality {: aria-label='Variables' }
+[ ](#){: .rep .tooltip .badge }
+#### int CraftingQuality  {: .copyable aria-label='Variables' }
+
+The item's quality for the Bag of Crafting algorithm. Possible values are -1, 0, 1, 2, 3, and 4. A value of -1 indicates that the item is disabled from being craftable.
 ___
 ### Description {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
@@ -134,9 +155,9 @@ Any item that is not marked with a devil price will return ``:::lua 1``
     ```
 ___
 ### Discharged {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .abp .tooltip .badge }
 #### boolean Discharged  {: .copyable aria-label='Variables' }
-
+This attribute got removed with Repentance.
 ___
 ### Gfx·File·Name {: aria-label='Variables' }
 [ ](#){: .abrep .tooltip .badge }
@@ -145,7 +166,7 @@ ___
 Returns the path to the item's GFX.
 ___
 ### Hidden {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### boolean Hidden  {: .copyable aria-label='Variables' }
 
 Returns if the item can appear in Death Certificate area. If ``:::lua true`` the item will not appear.
@@ -157,7 +178,7 @@ ___
 Returns the item's ID.
 ___
 ### Init·Charge {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### int InitCharge  {: .copyable aria-label='Variables' }
 
 Returns how much charge the item should have when picked up. ``:::lua -1`` indicates the item is fully charged when collected.
@@ -185,25 +206,25 @@ Returns the item's name.
     In Repentance, returns "#[ITEM_NAME]" rather than the item's ingame name. (i.e. The Sad Onion will return #THE_SAD_ONION_NAME)
 ___
 ### Passive·Cache {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### boolean PassiveCache  {: .copyable aria-label='Variables' }
 
 Whether or not a cache evaluation is called when the item is picked up. (used in item's like "Mom's Box")
 ___
 ### Persistent·Effect {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### boolean PersistentEffect  {: .copyable aria-label='Variables' }
 
 Returns whether or not an active item's CollectibleEffect should persist between rooms. Any item without this set will return ``:::lua false``.
 ___
 ### Quality {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### int Quality  {: .copyable aria-label='Variables' }
 
 Returns the item's quality. Possible values are 0, 1, 2, 3, 4.
 ___
 ### Shop·Price {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### int ShopPrice  {: .copyable aria-label='Variables' }
 
 Returns the cost of the item at a shop. Returns ``:::lua 15`` if the item has no defined price in [items.xml](xml/items.md).
@@ -215,7 +236,7 @@ ___
 For the special collectible reroll system. (not applicable in Repentance)
 ___
 ### Tags {: aria-label='Variables' }
-[ ](#){: .abrep .tooltip .badge }
+[ ](#){: .rep .tooltip .badge }
 #### int Tags  {: .copyable aria-label='Variables' }
 
 Returns the tags of the item.
